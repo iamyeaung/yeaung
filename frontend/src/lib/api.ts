@@ -1,6 +1,10 @@
+import { createClient } from "@supabase/supabase-js";
 import type { DailyLog, CreateDailyLog } from "@/types/daily-log";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api";
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder";
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 class ApiError extends Error {
   constructor(
@@ -13,42 +17,70 @@ class ApiError extends Error {
   }
 }
 
-async function fetchApi<T>(
-  path: string,
-  options?: RequestInit,
-): Promise<T> {
-  const res = await fetch(`${BASE_URL}${path}`, {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      ...options?.headers,
-    },
-    ...options,
-  });
-
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({
-      message: res.statusText,
-    }));
-    throw new ApiError(res.status, body.message, body.errors);
-  }
-
-  return res.json();
+function mapToCamelCase(row: any): DailyLog {
+  return {
+    id: row.id,
+    title: row.title,
+    content: row.content,
+    mood: row.mood,
+    tags: row.tags,
+    userId: row.user_id,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
 }
 
 export const api = {
   dailyLogs: {
-    create: (data: CreateDailyLog) =>
-      fetchApi<{ data: DailyLog }>("/daily-logs", {
-        method: "POST",
-        body: JSON.stringify(data),
-      }),
+    create: async (data: CreateDailyLog): Promise<{ data: DailyLog }> => {
+      // Use a mock UUID for development if auth is not implemented yet
+      const mockUserId = "00000000-0000-0000-0000-000000000000";
 
-    list: () =>
-      fetchApi<{ data: DailyLog[] }>("/daily-logs"),
+      const { data: row, error } = await supabase
+        .from("daily_logs")
+        .insert({
+          title: data.title,
+          content: data.content,
+          mood: data.mood ?? null,
+          tags: data.tags ?? null,
+          user_id: mockUserId,
+        })
+        .select()
+        .single();
 
-    get: (id: string) =>
-      fetchApi<{ data: DailyLog }>(`/daily-logs/${id}`),
+      if (error) {
+        throw new ApiError(500, error.message);
+      }
+
+      return { data: mapToCamelCase(row) };
+    },
+
+    list: async (): Promise<{ data: DailyLog[] }> => {
+      const { data: rows, error } = await supabase
+        .from("daily_logs")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        throw new ApiError(500, error.message);
+      }
+
+      return { data: (rows || []).map(mapToCamelCase) };
+    },
+
+    get: async (id: string): Promise<{ data: DailyLog }> => {
+      const { data: row, error } = await supabase
+        .from("daily_logs")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error) {
+        throw new ApiError(500, error.message);
+      }
+
+      return { data: mapToCamelCase(row) };
+    },
   },
 };
 
