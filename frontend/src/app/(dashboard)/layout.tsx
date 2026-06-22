@@ -14,9 +14,15 @@ export default function DashboardLayout({
             DevPulse
           </Link>
           <nav className="flex items-center gap-6">
+            <div className="hidden md:flex items-center gap-6">
+              <Link href="/about" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">About</Link>
+              <Link href="/privacy" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">Privacy</Link>
+              <Link href="/terms" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">Terms</Link>
+              <Link href="/contact" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">Contact</Link>
+            </div>
             <Link
               href="/logs"
-              className="text-sm font-medium text-gray-600 hover:text-gray-900"
+              className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
             >
               Daily Logs
             </Link>
