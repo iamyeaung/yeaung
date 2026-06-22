@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /mnt/c/Users/khuny/Desktop/Code/DevPulse log --oneline -10)",
+      "Bash(npm install *)"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "filesystem"
+  ],
+  "disabledMcpjsonServers": [
+    "brave-search"
+  ]
+}
