@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { api } from "@/lib/api";
 import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { LogCard } from "@/components/features/log-card";
 
 export default async function HomePage() {
   // Server-side fetching (Instant Data Load!)
@@ -10,11 +12,11 @@ export default async function HomePage() {
   const greatDays = logs.filter((l) => l.mood && l.mood.includes("great")).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white text-gray-900 selection:bg-blue-500 selection:text-white">
+    <div className="flex min-h-screen flex-col bg-gradient-to-b from-gray-50 to-white text-gray-900 selection:bg-blue-500 selection:text-white">
       {/* Navbar Shell */}
       <Navbar />
 
-      <main className="mx-auto max-w-5xl px-6 pb-24 pt-12">
+      <main className="flex-1 mx-auto max-w-5xl px-6 pb-24 pt-12 w-full">
         {/* 1. HERO SECTION */}
         <div className="py-10 md:py-16">
           <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50/50 px-3 py-1 text-xs font-medium text-blue-700 mb-6">
@@ -90,46 +92,15 @@ export default async function HomePage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {logs.map((log) => (
-                <div
-                  key={log.id}
-                  className="group relative flex flex-col justify-between rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md"
-                >
-                  <div>
-                    <div className="flex items-center justify-between text-xs text-gray-400 mb-3">
-                      <time className="font-mono">
-                        {new Date(log.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                      </time>
-                      {log.mood && (
-                        <span className="rounded-full bg-gray-50 px-2.5 py-0.5 text-[10px] font-bold text-gray-600 border border-gray-100">
-                          {log.mood.toUpperCase()}
-                        </span>
-                      )}
-                    </div>
-                    <h3 className="text-base font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-                      {log.title}
-                    </h3>
-                    <p className="mt-2.5 line-clamp-3 font-mono text-xs text-gray-500 leading-relaxed bg-gray-50/50 p-2.5 rounded border border-gray-50">
-                      {log.content}
-                    </p>
-                  </div>
-
-                  {/* Tags */}
-                  {log.tags && log.tags.length > 0 && (
-                    <div className="mt-4 flex flex-wrap gap-1.5 pt-4 border-t border-gray-50">
-                      {log.tags.map((tag, idx) => (
-                        <span key={idx} className="rounded bg-blue-50/80 px-2 py-0.5 font-mono text-[10px] font-semibold text-blue-700">
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
+              {logs.map((log: any) => (
+                <LogCard key={log.id} log={log} />
               ))}
             </div>
           )}
         </div>
       </main>
+      
+      <Footer />
     </div>
   );
 }

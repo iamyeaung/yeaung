@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Footer } from "@/components/layout/Footer";
 
 export default function DashboardLayout({
   children,
@@ -6,7 +7,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="flex min-h-screen flex-col bg-gray-50">
       {/* Header */}
       <header className="border-b border-gray-200 bg-white">
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
@@ -31,7 +32,9 @@ export default function DashboardLayout({
       </header>
 
       {/* Main content */}
-      <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
+      <main className="flex-1 mx-auto max-w-5xl px-4 py-8 w-full">{children}</main>
+      
+      <Footer />
     </div>
   );
 }
