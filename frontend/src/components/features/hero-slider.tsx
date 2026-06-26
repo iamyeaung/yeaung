@@ -40,8 +40,8 @@ export function HeroSlider({ logs }: { logs: any[] }) {
 
   if (!logs || logs.length === 0) {
     return (
-      <div className="w-full h-full min-h-[400px] bg-gray-100 rounded-[2rem] border border-gray-200 flex items-center justify-center">
-        <p className="text-gray-400 text-sm font-medium">No posts to display yet</p>
+      <div className="w-full h-full min-h-[400px] bg-gray-100 dark:bg-gray-900 rounded-[2rem] border border-gray-200 dark:border-gray-800 flex items-center justify-center transition-colors">
+        <p className="text-gray-400 dark:text-gray-600 text-sm font-medium transition-colors">No posts to display yet</p>
       </div>
     );
   }

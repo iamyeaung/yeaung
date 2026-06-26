@@ -38,10 +38,10 @@ export function LogCard({ log }: { log: Log }) {
   return (
     <Link
       href={`/log/${log.id}`}
-      className="group flex flex-col sm:flex-row bg-white rounded-[1.5rem] overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 transition-all duration-300"
+      className="group flex flex-col sm:flex-row bg-white dark:bg-gray-900/50 rounded-[1.5rem] overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 dark:border-gray-800 transition-all duration-300"
     >
       {/* Left Side: Image */}
-      <div className="relative w-full sm:w-[40%] sm:max-w-[320px] h-56 sm:h-full bg-gray-100 overflow-hidden shrink-0">
+      <div className="relative w-full sm:w-[40%] sm:max-w-[320px] h-56 sm:h-full bg-gray-100 dark:bg-gray-800 overflow-hidden shrink-0 transition-colors">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img 
           src={imageUrl} 
@@ -55,27 +55,27 @@ export function LogCard({ log }: { log: Log }) {
       <div className="p-6 sm:p-8 flex flex-col flex-1 justify-center relative">
         <div className="flex flex-wrap items-center gap-3 mb-4">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 border border-gray-100">
+            <div className="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden flex-shrink-0 border border-gray-100 dark:border-gray-700 transition-colors">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${log.id}`} alt="Author" className="w-full h-full object-cover" />
             </div>
-            <span className="text-xs font-extrabold text-gray-700">Ye Aung</span>
+            <span className="text-xs font-extrabold text-gray-700 dark:text-gray-200 transition-colors">Ye Aung</span>
           </div>
-          <span className="text-gray-300">•</span>
-          <time className="text-[11px] text-gray-500 font-bold">
+          <span className="text-gray-300 dark:text-gray-600 transition-colors">•</span>
+          <time className="text-[11px] text-gray-500 dark:text-gray-400 font-bold transition-colors">
             {new Date(log.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
           </time>
-          <span className="text-gray-300 hidden sm:inline">•</span>
-          <div className="text-[10px] text-[#FF5722] font-bold uppercase tracking-wider bg-orange-50 px-2 py-0.5 rounded ml-auto sm:ml-0">
+          <span className="text-gray-300 dark:text-gray-600 hidden sm:inline transition-colors">•</span>
+          <div className="text-[10px] text-[#FF5722] font-bold uppercase tracking-wider bg-orange-50 dark:bg-orange-900/20 px-2 py-0.5 rounded ml-auto sm:ml-0 transition-colors">
             {log.tags?.[0] || 'Technologies'}
           </div>
         </div>
         
-        <h3 className="text-xl font-bold text-gray-900 group-hover:text-[#FF5722] transition-colors leading-[1.8] mb-2 py-1">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-[#FF5722] dark:group-hover:text-[#FF5722] transition-colors leading-[1.8] mb-2 py-1">
           {log.title?.length > 80 ? log.title.substring(0, 80) + '...' : log.title}
         </h3>
         
-        <p className="text-sm text-gray-500 leading-[1.9] font-medium py-1">
+        <p className="text-sm text-gray-500 dark:text-gray-400 leading-[1.9] font-medium py-1 transition-colors">
           {log.content?.length > 130 ? log.content.substring(0, 130) + '...' : log.content}
         </p>
       </div>

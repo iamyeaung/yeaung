@@ -30,7 +30,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
   const greatDays = logs.filter((l: any) => l.mood && l.mood.includes("great")).length;
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#F9F8F4] text-gray-900 selection:bg-orange-500 selection:text-white font-sans">
+    <div className="flex min-h-screen flex-col bg-[#F9F8F4] dark:bg-gray-950 text-gray-900 dark:text-gray-100 selection:bg-orange-500 selection:text-white font-sans transition-colors">
       {/* Navbar Shell */}
       <Navbar />
 
@@ -48,20 +48,20 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
 
             {/* Right Side: Slogan Card */}
             <div className="flex-1 w-full lg:w-1/2 flex justify-end">
-              <div className="w-full h-full flex flex-col justify-center bg-white border border-gray-100 shadow-sm rounded-[1.5rem] p-8 md:p-10 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-orange-100 rounded-full blur-3xl -mr-20 -mt-20 opacity-50 pointer-events-none"></div>
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-50 rounded-full blur-3xl -ml-20 -mb-20 opacity-50 pointer-events-none"></div>
+              <div className="w-full h-full flex flex-col justify-center bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm rounded-[1.5rem] p-8 md:p-10 relative overflow-hidden transition-colors">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-orange-100 dark:bg-orange-900/20 rounded-full blur-3xl -mr-20 -mt-20 opacity-50 pointer-events-none transition-colors"></div>
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-50 dark:bg-purple-900/20 rounded-full blur-3xl -ml-20 -mb-20 opacity-50 pointer-events-none transition-colors"></div>
                 
-                <h1 className="text-[36px] sm:text-5xl font-extrabold tracking-tight text-gray-900 leading-[1.1] relative z-10">
+                <h1 className="text-[36px] sm:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 leading-[1.1] relative z-10 transition-colors">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF5722] to-orange-400">
                     Tech.
                   </span>
-                  <span className="block mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-gray-800">
+                  <span className="block mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-gray-800 dark:text-gray-200 transition-colors">
                     Document your engineering breakthroughs.
                   </span>
                 </h1>
                 
-                <p className="mt-5 text-[15px] sm:text-base text-gray-600 leading-relaxed font-medium relative z-10 max-w-[95%]">
+                <p className="mt-5 text-[15px] sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed font-medium relative z-10 max-w-[95%] transition-colors">
                   A high-performance Knowledge Management System. Track daily bug fixes, preserve code snippets, and build a demonstrable Full-Stack portfolio.
                 </p>
               </div>
@@ -78,8 +78,8 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
             {/* FEATURED POSTS (Only show on page 1) */}
             {displayFeatured.length > 0 && page === 1 && (
               <div className="mb-12">
-                <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
+                <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-4 mb-6 transition-colors">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 tracking-tight flex items-center gap-2 transition-colors">
                     <span className="text-[#FF5722] text-xl">★</span> Featured Posts
                   </h2>
                 </div>
@@ -92,13 +92,13 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
             )}
 
             {/* LATEST ARTICLES */}
-            <div className="border-b border-gray-100 pb-4 mb-6">
-              <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Latest Articles</h2>
+            <div className="border-b border-gray-100 dark:border-gray-800 pb-4 mb-6 transition-colors">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 tracking-tight transition-colors">Latest Articles</h2>
             </div>
 
             {logs.length === 0 ? (
-              <div className="rounded-[1.5rem] border border-dashed border-gray-200 p-12 text-center bg-white/50 shadow-sm">
-                <p className="text-gray-500 font-medium">No logs recorded yet. Your stream is a clean slate!</p>
+              <div className="rounded-[1.5rem] border border-dashed border-gray-200 dark:border-gray-700 p-12 text-center bg-white/50 dark:bg-gray-900/50 shadow-sm transition-colors">
+                <p className="text-gray-500 dark:text-gray-400 font-medium transition-colors">No logs recorded yet. Your stream is a clean slate!</p>
               </div>
             ) : (
               <>
@@ -112,11 +112,11 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
                   <div className="mt-10 flex items-center justify-center gap-2">
                     {/* Prev Button */}
                     {page > 1 ? (
-                      <Link href={`/?page=${page - 1}`} className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-colors shadow-sm scroll-smooth">
+                      <Link href={`/?page=${page - 1}`} className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 transition-colors shadow-sm scroll-smooth">
                         ←
                       </Link>
                     ) : (
-                      <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-100 bg-gray-50 text-gray-300 cursor-not-allowed">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 text-gray-300 dark:text-gray-600 cursor-not-allowed transition-colors">
                         ←
                       </div>
                     )}
@@ -129,7 +129,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
                         <Link
                           key={pageNum}
                           href={`/?page=${pageNum}`}
-                          className={`flex h-9 w-9 items-center justify-center rounded-xl text-sm font-bold transition-all ${isActive ? 'bg-[#FF5722] text-white shadow-md shadow-orange-500/30' : 'border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900 shadow-sm'}`}
+                          className={`flex h-9 w-9 items-center justify-center rounded-xl text-sm font-bold transition-all ${isActive ? 'bg-[#FF5722] text-white shadow-md shadow-orange-500/30' : 'border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 shadow-sm'}`}
                         >
                           {pageNum}
                         </Link>
@@ -138,11 +138,11 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
 
                     {/* Next Button */}
                     {page < totalPages ? (
-                      <Link href={`/?page=${page + 1}`} className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-colors shadow-sm scroll-smooth">
+                      <Link href={`/?page=${page + 1}`} className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 transition-colors shadow-sm scroll-smooth">
                         →
                       </Link>
                     ) : (
-                      <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-100 bg-gray-50 text-gray-300 cursor-not-allowed">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 text-gray-300 dark:text-gray-600 cursor-not-allowed transition-colors">
                         →
                       </div>
                     )}
