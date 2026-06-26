@@ -6,6 +6,8 @@ export interface DailyLog {
   content: string;
   mood: DailyLogMood | null;
   tags: string[] | null;
+  slug?: string | null;
+  category?: string | null;
   userId: string;
   createdAt: string;
   updatedAt: string;

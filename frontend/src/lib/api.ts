@@ -24,6 +24,8 @@ function mapToCamelCase(row: any): DailyLog {
     content: row.content,
     mood: row.mood,
     tags: row.tags,
+    slug: row.slug,
+    category: row.category,
     userId: row.user_id,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -68,12 +70,18 @@ export const api = {
       return { data: (rows || []).map(mapToCamelCase) };
     },
 
-    get: async (id: string): Promise<{ data: DailyLog }> => {
-      const { data: row, error } = await supabase
-        .from("daily_logs")
-        .select("*")
-        .eq("id", id)
-        .single();
+    get: async (idOrSlug: string): Promise<{ data: DailyLog }> => {
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(idOrSlug);
+      
+      let query = supabase.from("daily_logs").select("*");
+      
+      if (isUuid) {
+        query = query.eq("id", idOrSlug);
+      } else {
+        query = query.eq("slug", idOrSlug);
+      }
+      
+      const { data: row, error } = await query.single();
 
       if (error) {
         throw new ApiError(500, error.message);

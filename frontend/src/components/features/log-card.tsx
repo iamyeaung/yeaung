@@ -7,6 +7,8 @@ type Log = {
   title: string;
   content: string;
   tags?: string[];
+  slug?: string | null;
+  category?: string | null;
 };
 
 const TAG_IMAGE_MAP: Record<string, string> = {
@@ -34,10 +36,13 @@ export function LogCard({ log }: { log: Log }) {
   }
 
   const imageUrl = `https://images.unsplash.com/photo-${imageId}?w=800&q=80&auto=format`;
+  const displayId = log.slug?.trim() || log.id;
+  const displayCategory = log.category?.trim() ? `${log.category.trim()}/` : '';
+  const href = `/${displayCategory}${displayId}`;
 
   return (
     <Link
-      href={`/log/${log.id}`}
+      href={href}
       className="group flex flex-col sm:flex-row bg-white dark:bg-gray-900/50 rounded-[1.5rem] overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 dark:border-gray-800 transition-all duration-300"
     >
       {/* Left Side: Image */}

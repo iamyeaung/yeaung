@@ -29,6 +29,8 @@ export async function createPost(formData: FormData) {
     title: formData.get('title') as string,
     content: formData.get('content') as string,
     mood: (formData.get('mood') as string) || null,
+    slug: (formData.get('slug') as string) || null,
+    category: (formData.get('category') as string) || null,
     tags: formData.get('tags') ? (formData.get('tags') as string).split(',').map(t => t.trim()) : [],
     user_id: mockUserId,
   }
@@ -50,6 +52,8 @@ export async function updatePost(id: string, formData: FormData) {
     title: formData.get('title') as string,
     content: formData.get('content') as string,
     mood: (formData.get('mood') as string) || null,
+    slug: (formData.get('slug') as string) || null,
+    category: (formData.get('category') as string) || null,
     tags: formData.get('tags') ? (formData.get('tags') as string).split(',').map(t => t.trim()) : [],
   }
 

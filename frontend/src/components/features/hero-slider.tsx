@@ -61,12 +61,16 @@ export function HeroSlider({ logs }: { logs: any[] }) {
         }
         const imageUrl = `https://images.unsplash.com/photo-${imageId}?w=800&q=80&auto=format`;
 
+        const displayId = log.slug?.trim() || log.id;
+        const displayCategory = log.category?.trim() ? `${log.category.trim()}/` : '';
+        const href = `/${displayCategory}${displayId}`;
+
         return (
           <div 
             key={`hero-slider-${log.id}`}
             className={`absolute inset-0 transition-all duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] ${index === current ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-110 z-0 pointer-events-none'}`}
           >
-            <Link href={`/log/${log.id}`} className="block w-full h-full cursor-pointer">
+            <Link href={href} className="block w-full h-full cursor-pointer">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={imageUrl} alt={log.title} className="w-full h-full object-cover" />
               

@@ -2,13 +2,14 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, FileText, LogOut, ArrowLeft } from 'lucide-react'
+import { LayoutDashboard, FileText, LogOut, ArrowLeft, Tags } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { logout } from '@/app/admin/login/actions'
 
 const navigation = [
   { name: 'Overview', href: '/admin', icon: LayoutDashboard },
   { name: 'Posts', href: '/admin/posts', icon: FileText },
+  { name: 'Categories', href: '/admin/categories', icon: Tags },
 ]
 
 export function AdminSidebar() {

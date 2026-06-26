@@ -14,7 +14,7 @@ export default function AdminDashboardLayout({
           <ThemeToggle />
         </header>
         <div className="flex-1 overflow-y-auto">
-          <div className="mx-auto w-full max-w-6xl p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="w-full p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {children}
           </div>
         </div>

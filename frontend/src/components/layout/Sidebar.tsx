@@ -5,6 +5,8 @@ type Log = {
   createdAt: string;
   title: string;
   tags?: string[] | null;
+  slug?: string | null;
+  category?: string | null;
 };
 
 export function Sidebar({ logs }: { logs: Log[] }) {
@@ -18,8 +20,12 @@ export function Sidebar({ logs }: { logs: Log[] }) {
           <a href="#" className="text-[11px] font-bold text-[#FF5722] hover:underline">See all ↗</a>
         </div>
         <div className="space-y-5">
-          {logs.slice(0, 4).map((log) => (
-            <Link key={`sidebar-${log.id}`} href={`/log/${log.id}`} className="group flex gap-4 items-start">
+          {logs.slice(0, 4).map((log) => {
+            const displayId = log.slug?.trim() || log.id;
+            const displayCategory = log.category?.trim() ? `${log.category.trim()}/` : '';
+            const href = `/${displayCategory}${displayId}`;
+            return (
+            <Link key={`sidebar-${log.id}`} href={href} className="group flex gap-4 items-start">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={`https://picsum.photos/seed/${log.id}/200/150`} alt="" className="w-[84px] h-[68px] rounded-xl object-cover bg-gray-100 dark:bg-gray-800 shrink-0 border border-gray-100 dark:border-gray-800 transition-colors" />
               <div className="flex-1 flex flex-col justify-center">
@@ -36,7 +42,8 @@ export function Sidebar({ logs }: { logs: Log[] }) {
                 <div className="text-[9px] font-semibold text-gray-400 dark:text-gray-500 mt-1 uppercase tracking-wider transition-colors">{log.tags?.[0] || 'Technologies'}</div>
               </div>
             </Link>
-          ))}
+            );
+          })}
         </div>
       </div>
 

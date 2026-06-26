@@ -22,7 +22,7 @@ export default async function AdminPostsPage({
 
   let supabaseQuery = supabase
     .from('daily_logs')
-    .select('id, title, created_at, mood, tags', { count: 'exact' })
+    .select('id, title, created_at, mood, tags, category', { count: 'exact' })
     .order('created_at', { ascending: false })
     .range(from, to)
 
@@ -64,6 +64,7 @@ export default async function AdminPostsPage({
               <tr>
                 <th className="px-6 py-4 font-medium">Title</th>
                 <th className="px-6 py-4 font-medium">Date</th>
+                <th className="px-6 py-4 font-medium">Category</th>
                 <th className="px-6 py-4 font-medium">Mood</th>
                 <th className="px-6 py-4 font-medium text-right">Actions</th>
               </tr>
@@ -77,6 +78,15 @@ export default async function AdminPostsPage({
                     </td>
                     <td className="px-6 py-4 text-muted-foreground whitespace-nowrap">
                       {new Date(log.created_at).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4">
+                      {log.category ? (
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                          {log.category}
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground">-</span>
+                      )}
                     </td>
                     <td className="px-6 py-4">
                       {log.mood ? (
@@ -101,7 +111,7 @@ export default async function AdminPostsPage({
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} className="px-6 py-12 text-center text-muted-foreground flex flex-col items-center justify-center">
+                  <td colSpan={5} className="px-6 py-12 text-center text-muted-foreground flex flex-col items-center justify-center">
                     {query ? (
                       <>
                         <span className="text-lg font-medium mb-1">No results found</span>

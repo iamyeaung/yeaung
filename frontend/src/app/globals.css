@@ -55,3 +55,17 @@
     font-family: system-ui, -apple-system, sans-serif;
   }
 }
+
+/* Markdown Editor Overrides for Better Readability (especially Myanmar text) */
+.w-md-editor-text-input, 
+.w-md-editor-text-pre,
+.wmde-markdown {
+  font-size: 16px !important;
+  line-height: 1.8 !important;
+}
+
+.w-md-editor {
+  border-radius: var(--radius) !important;
+  box-shadow: none !important;
+  border: 1px solid hsl(var(--border)) !important;
+}
