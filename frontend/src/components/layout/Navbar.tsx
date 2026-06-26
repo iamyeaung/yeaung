@@ -5,7 +5,7 @@ export function Navbar() {
     <header className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6 border-b border-gray-100">
       <div className="flex items-center gap-2 font-mono text-lg font-bold tracking-tight">
         <span className="h-2 w-2 rounded-full bg-blue-600 animate-pulse" />
-        <Link href="/">DevPulse<span className="text-blue-600">.</span></Link>
+        <Link href="/">Ye Aung<span className="text-orange-500">.</span></Link>
       </div>
       <nav className="flex items-center gap-6">
         <div className="hidden md:flex items-center gap-6">

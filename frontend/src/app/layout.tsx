@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "DevPulse — Daily Log",
+  title: "Ye Aung — Daily Log",
   description: "A Knowledge Management System for developers",
 };
 

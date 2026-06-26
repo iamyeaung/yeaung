@@ -31,3 +31,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# database scripts
+delete_post.mjs
+insert_9_agentic_posts.mjs
+insert_agentic_post.mjs
+reseed_myanmar.mjs
+seed.mjs

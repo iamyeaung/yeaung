@@ -12,7 +12,7 @@ export default function DashboardLayout({
       <header className="border-b border-gray-200 bg-white">
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
           <Link href="/" className="text-xl font-bold text-gray-900">
-            DevPulse
+            Ye Aung
           </Link>
           <nav className="flex items-center gap-6">
             <div className="hidden md:flex items-center gap-6">
