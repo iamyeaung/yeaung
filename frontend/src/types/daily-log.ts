@@ -11,6 +11,7 @@ export interface DailyLog {
   userId: string;
   createdAt: string;
   updatedAt: string;
+  image_url?: string | null;
 }
 
 export interface CreateDailyLog {

@@ -9,21 +9,24 @@ type Log = {
   tags?: string[];
   slug?: string | null;
   category?: string | null;
+  image_url?: string | null;
 };
 
 const TAG_IMAGE_MAP: Record<string, string> = {
-  mcp: "1518770660439-4636190af475", // Circuit/Connection
-  skills: "1550751827-4bd374c3f58b", // Secure/Tech
-  "sub-agent": "1526374965328-7f61d4dc18c5", // Network nodes
-  tool: "1555066931-4365d14bab8c", // Code on screen
-  resource: "1451187580459-43490279c0fa", // Servers/Data
-  prompt: "1620712949982-297a8b87e221", // AI Brain
-  memory: "1504164996022-090807874c65", // Complex network
-  checkpointer: "1635070041078-e363dbe005cb", // Tech abstract
-  harness: "1677442136019-217800a5a088" // AI Core
+  mcp: "1518770660439-4636190af475",
+  skills: "1550751827-4bd374c3f58b",
+  "sub-agent": "1451187580459-43490279c0fa",
+  tool: "1555066931-4365d14bab8c",
+  resource: "1451187580459-43490279c0fa",
+  prompt: "1522881193437-013143c74c15",
+  memory: "1551288049-bebda4e38f71",
+  checkpointer: "1555939594595-814fe04cb880",
+  harness: "1561070791266-298379c65691",
+  nextjs: "1555066931-4365d14bab8c",
+  react: "1522881193437-013143c74c15"
 };
 
-const FALLBACK_IMAGE = "1677442136019-217800a5a088";
+const FALLBACK_IMAGE = "1498050108023-c5249f4df085";
 
 export function LogCard({ log }: { log: Log }) {
   // Find a highly relevant image based on the specific tags (ignoring generic 'ai' tag)
@@ -34,8 +37,7 @@ export function LogCard({ log }: { log: Log }) {
       imageId = TAG_IMAGE_MAP[specificTag.toLowerCase()];
     }
   }
-
-  const imageUrl = `https://images.unsplash.com/photo-${imageId}?w=800&q=80&auto=format`;
+  const imageUrl = log.image_url || `https://images.unsplash.com/photo-${imageId}?w=800&q=80&auto=format`;
   const displayId = log.slug?.trim() || log.id;
   const displayCategory = log.category?.trim() ? `${log.category.trim()}/` : '';
   const href = `/${displayCategory}${displayId}`;

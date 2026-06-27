@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useTransition, useState, useEffect } from 'react'
+import { useTransition, useState, useEffect, useRef, useCallback } from 'react'
 import { Search } from 'lucide-react'
 
 export function SearchPosts() {
@@ -11,10 +11,16 @@ export function SearchPosts() {
   const [isPending, startTransition] = useTransition()
   
   const [query, setQuery] = useState(searchParams.get('query') || '')
+  const searchParamsRef = useRef(searchParams)
+
+  // Keep ref in sync without triggering effects
+  useEffect(() => {
+    searchParamsRef.current = searchParams
+  }, [searchParams])
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      const params = new URLSearchParams(searchParams)
+      const params = new URLSearchParams(searchParamsRef.current)
       if (query) {
         params.set('query', query)
       } else {
@@ -28,7 +34,7 @@ export function SearchPosts() {
     }, 300) // 300ms debounce
 
     return () => clearTimeout(delayDebounceFn)
-  }, [query, pathname, router, searchParams])
+  }, [query, pathname, router, startTransition])
 
   return (
     <div className="relative flex-1 max-w-sm">

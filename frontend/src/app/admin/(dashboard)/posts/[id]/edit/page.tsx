@@ -12,17 +12,26 @@ export default async function EditPostPage({
   
   let { data: post, error } = await supabase
     .from('daily_logs')
-    .select('id, title, content, mood, tags, slug, category')
+    .select('id, title, content, mood, tags, slug, category, image_url')
     .eq('id', id)
     .single()
 
   // Fallback if 'slug' or 'category' column doesn't exist yet
   if (error) {
-    const fallback = await supabase
+    let fallback = await supabase
       .from('daily_logs')
-      .select('id, title, content, mood, tags')
+      .select('id, title, content, mood, tags, image_url')
       .eq('id', id)
       .single()
+      
+    if (fallback.error) {
+      fallback = await supabase
+        .from('daily_logs')
+        .select('id, title, content, mood, tags')
+        .eq('id', id)
+        .single()
+    }
+    
     post = fallback.data as any
   }
 

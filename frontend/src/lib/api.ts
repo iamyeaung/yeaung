@@ -29,6 +29,7 @@ function mapToCamelCase(row: any): DailyLog {
     userId: row.user_id,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
+    image_url: row.image_url,
   };
 }
 

@@ -59,7 +59,7 @@ export function HeroSlider({ logs }: { logs: any[] }) {
             }
           }
         }
-        const imageUrl = `https://images.unsplash.com/photo-${imageId}?w=800&q=80&auto=format`;
+        const imageUrl = log.image_url || `https://images.unsplash.com/photo-${imageId}?w=800&q=80&auto=format`;
 
         const displayId = log.slug?.trim() || log.id;
         const displayCategory = log.category?.trim() ? `${log.category.trim()}/` : '';

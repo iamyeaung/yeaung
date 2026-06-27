@@ -6,16 +6,18 @@ import { Sidebar } from "@/components/layout/Sidebar";
 const TAG_IMAGE_MAP: Record<string, string> = {
   mcp: "1518770660439-4636190af475",
   skills: "1550751827-4bd374c3f58b",
-  "sub-agent": "1526374965328-7f61d4dc18c5",
+  "sub-agent": "1451187580459-43490279c0fa",
   tool: "1555066931-4365d14bab8c",
   resource: "1451187580459-43490279c0fa",
-  prompt: "1620712949982-297a8b87e221",
-  memory: "1504164996022-090807874c65",
-  checkpointer: "1635070041078-e363dbe005cb",
-  harness: "1677442136019-217800a5a088"
+  prompt: "1522881193437-013143c74c15",
+  memory: "1551288049-bebda4e38f71",
+  checkpointer: "1555939594595-814fe04cb880",
+  harness: "1561070791266-298379c65691",
+  nextjs: "1555066931-4365d14bab8c",
+  react: "1522881193437-013143c74c15"
 };
 
-const FALLBACK_IMAGE = "1677442136019-217800a5a088";
+const FALLBACK_IMAGE = "1498050108023-c5249f4df085";
 
 export default async function LogDetailPage({ params }: { params: Promise<{ slug: string[] }> }) {
   const { slug } = await params;
@@ -51,7 +53,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ slug
       imageId = TAG_IMAGE_MAP[specificTag.toLowerCase()];
     }
   }
-  const imageUrl = `https://images.unsplash.com/photo-${imageId}?w=1200&q=80&auto=format`;
+  const imageUrl = log.image_url || `https://images.unsplash.com/photo-${imageId}?w=1200&q=80&auto=format`;
 
   return (
     <div className="w-full bg-[#F9F8F4] dark:bg-gray-950 transition-colors">

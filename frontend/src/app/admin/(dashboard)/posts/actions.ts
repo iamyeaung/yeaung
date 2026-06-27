@@ -31,11 +31,20 @@ export async function createPost(formData: FormData) {
     mood: (formData.get('mood') as string) || null,
     slug: (formData.get('slug') as string) || null,
     category: (formData.get('category') as string) || null,
+    image_url: (formData.get('image_url') as string) || null,
     tags: formData.get('tags') ? (formData.get('tags') as string).split(',').map(t => t.trim()) : [],
     user_id: mockUserId,
   }
 
-  const { error } = await supabase.from('daily_logs').insert(post)
+  let { error } = await supabase.from('daily_logs').insert(post)
+
+  // Fallback if 'image_url' column doesn't exist in the DB schema yet
+  if (error && error.message.includes('image_url') && error.message.includes('schema cache')) {
+    const fallbackPost = { ...post }
+    delete (fallbackPost as any).image_url
+    const retry = await supabase.from('daily_logs').insert(fallbackPost)
+    error = retry.error
+  }
 
   if (error) {
     throw new Error('Failed to create post: ' + error.message)
@@ -54,10 +63,19 @@ export async function updatePost(id: string, formData: FormData) {
     mood: (formData.get('mood') as string) || null,
     slug: (formData.get('slug') as string) || null,
     category: (formData.get('category') as string) || null,
+    image_url: (formData.get('image_url') as string) || null,
     tags: formData.get('tags') ? (formData.get('tags') as string).split(',').map(t => t.trim()) : [],
   }
 
-  const { error } = await supabase.from('daily_logs').update(post).eq('id', id)
+  let { error } = await supabase.from('daily_logs').update(post).eq('id', id)
+
+  // Fallback if 'image_url' column doesn't exist in the DB schema yet
+  if (error && error.message.includes('image_url') && error.message.includes('schema cache')) {
+    const fallbackPost = { ...post }
+    delete (fallbackPost as any).image_url
+    const retry = await supabase.from('daily_logs').update(fallbackPost).eq('id', id)
+    error = retry.error
+  }
 
   if (error) {
     throw new Error('Failed to update post: ' + error.message)
