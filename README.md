@@ -1,12 +1,11 @@
-# DevPulse
+# Ye Aung
 
-A Laravel 11 web application.
+A high-performance Knowledge Management System built with Next.js (App Router), Tailwind CSS, and Supabase.
 
 ## Prerequisites
 
-- [Laravel Herd](https://herd.laravel.com/) (Recommended for Windows/macOS) or PHP >= 8.2
-- Composer
-- Node.js & NPM
+- Node.js
+- npm
 
 ## Getting Started
 
@@ -15,35 +14,24 @@ Follow these steps to set up the project locally:
 1. **Clone the repository**
    ```bash
    git clone https://github.com/iamyeaung/yeaung.git
-   cd yeaung/backend
+   cd yeaung/frontend
    ```
 
-2. **Install PHP dependencies**
+2. **Install dependencies**
    ```bash
-   composer install
+   npm install
    ```
 
 3. **Environment Setup**
-   Copy the example `.env` file and generate an application key:
+   Set up your Supabase environment variables in a `.env.local` file:
    ```bash
-   cp .env.example .env
-   php artisan key:generate
+   cp .env.example .env.local
    ```
+   Make sure to fill in your `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
 
-4. **Database Setup**
-   This project uses SQLite by default. Run the database migrations to automatically create the database and required tables (including the `sessions` table):
+4. **Serve the Application**
+   Run the development server:
    ```bash
-   php artisan migrate
+   npm run dev
    ```
-
-5. **Serve the Application**
-   If you are using **Laravel Herd**, simply link the directory:
-   ```bash
-   herd link yeaung
-   ```
-   Then visit `http://yeaung.test` or `http://backend.test` in your browser.
-
-   Alternatively, use PHP's built-in server:
-   ```bash
-   php artisan serve
-   ```
+   Then visit `http://localhost:3000` in your browser.

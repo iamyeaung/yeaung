@@ -27,7 +27,7 @@ auto-advance: 20
 ---
 
 # How I built it
-- **Tech Stack**: React.js, Tailwind CSS, Laravel, and MySQL.
+- **Tech Stack**: Next.js 14 (App Router Monolith), Tailwind CSS, and Supabase (PostgreSQL + Auth).
 - **MCP**: Filesystem configured for direct local read/write access.
 - **Skill**: `laravel-react` (Best practices for clean API and UI).
 - **Agent**: `devpulse-builder` (Expert Full-Stack developer assistant).
