@@ -1,53 +1,59 @@
-import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
-import { Plus, Edit } from 'lucide-react'
-import { DeletePostButton } from '@/components/admin/DeletePostButton'
-import { SearchPosts } from '@/components/admin/SearchPosts'
-import { Pagination } from '@/components/admin/Pagination'
+import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import { Plus, Edit } from "lucide-react";
+import { DeletePostButton } from "@/components/admin/DeletePostButton";
+import { SearchPosts } from "@/components/admin/SearchPosts";
+import { Pagination } from "@/components/admin/Pagination";
 
 export default async function AdminPostsPage({
-  searchParams
+  searchParams,
 }: {
-  searchParams?: Promise<{ query?: string, page?: string }>
+  searchParams?: Promise<{ query?: string; page?: string }>;
 }) {
-  const supabase = await createClient()
-  
-  const params = await searchParams
-  const query = params?.query || ''
-  const currentPage = Number(params?.page) || 1
-  const ITEMS_PER_PAGE = 10
-  
-  const from = (currentPage - 1) * ITEMS_PER_PAGE
-  const to = from + ITEMS_PER_PAGE - 1
+  const supabase = await createClient();
+
+  const params = await searchParams;
+  const query = params?.query || "";
+  const currentPage = Number(params?.page) || 1;
+  const ITEMS_PER_PAGE = 10;
+
+  const from = (currentPage - 1) * ITEMS_PER_PAGE;
+  const to = from + ITEMS_PER_PAGE - 1;
 
   let supabaseQuery = supabase
-    .from('daily_logs')
-    .select('id, title, created_at, mood, tags, category', { count: 'exact' })
-    .order('created_at', { ascending: false })
-    .range(from, to)
+    .from("daily_logs")
+    .select("id, title, created_at, mood, tags, category", { count: "exact" })
+    .order("created_at", { ascending: false })
+    .range(from, to);
 
   if (query) {
-    supabaseQuery = supabaseQuery.or(`title.ilike.%${query}%,content.ilike.%${query}%`)
+    supabaseQuery = supabaseQuery.or(
+      `title.ilike.%${query}%,content.ilike.%${query}%`,
+    );
   }
 
-  const { data: logs, count, error } = await supabaseQuery
+  const { data: logs, count, error } = await supabaseQuery;
 
   if (error) {
-    console.error('Error fetching logs:', error)
+    console.error("Error fetching logs:", error);
   }
 
-  const totalPages = Math.ceil((count || 0) / ITEMS_PER_PAGE)
+  const totalPages = Math.ceil((count || 0) / ITEMS_PER_PAGE);
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight mb-2">Manage Posts</h1>
-          <p className="text-muted-foreground">View, edit, and delete your daily logs.</p>
+          <h1 className="text-3xl font-bold tracking-tight mb-2">
+            Manage Posts
+          </h1>
+          <p className="text-muted-foreground">
+            View, edit, and delete your daily logs.
+          </p>
         </div>
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <SearchPosts />
-          <Link 
+          <Link
             href="/admin/posts/create"
             className="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap"
           >
@@ -63,6 +69,7 @@ export default async function AdminPostsPage({
             <thead className="text-xs text-muted-foreground uppercase bg-muted/50 border-b border-border">
               <tr>
                 <th className="px-6 py-4 font-medium">Title</th>
+                <th className="px-6 py-4 font-medium">Author</th>
                 <th className="px-6 py-4 font-medium">Date</th>
                 <th className="px-6 py-4 font-medium">Category</th>
                 <th className="px-6 py-4 font-medium">Mood</th>
@@ -72,9 +79,20 @@ export default async function AdminPostsPage({
             <tbody>
               {logs && logs.length > 0 ? (
                 logs.map((log) => (
-                  <tr key={log.id} className="border-b border-border/50 hover:bg-muted/20 transition-colors">
+                  <tr
+                    key={log.id}
+                    className="border-b border-border/50 hover:bg-muted/20 transition-colors"
+                  >
                     <td className="px-6 py-4 font-medium text-foreground max-w-[300px] truncate">
                       {log.title}
+                    </td>
+                    <td className="px-6 py-4 text-muted-foreground whitespace-nowrap">
+                      <div className="flex items-center gap-2">
+                        <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">
+                          YA
+                        </div>
+                        Ye Aung
+                      </div>
                     </td>
                     <td className="px-6 py-4 text-muted-foreground whitespace-nowrap">
                       {new Date(log.created_at).toLocaleDateString()}
@@ -111,14 +129,21 @@ export default async function AdminPostsPage({
                 ))
               ) : (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-muted-foreground flex flex-col items-center justify-center">
+                  <td
+                    colSpan={6}
+                    className="px-6 py-12 text-center text-muted-foreground flex flex-col items-center justify-center"
+                  >
                     {query ? (
                       <>
-                        <span className="text-lg font-medium mb-1">No results found</span>
-                        <span>We couldn't find anything matching "{query}".</span>
+                        <span className="text-lg font-medium mb-1">
+                          No results found
+                        </span>
+                        <span>
+                          We couldn't find anything matching "{query}".
+                        </span>
                       </>
                     ) : (
-                      'No posts found.'
+                      "No posts found."
                     )}
                   </td>
                 </tr>
@@ -126,9 +151,9 @@ export default async function AdminPostsPage({
             </tbody>
           </table>
         </div>
-        
+
         <Pagination totalPages={totalPages} currentPage={currentPage} />
       </div>
     </div>
-  )
+  );
 }

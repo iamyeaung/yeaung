@@ -1,10 +1,10 @@
-import { AdminSidebar } from '@/components/admin/AdminSidebar'
-import { ThemeToggle } from '@/components/theme-toggle'
+import { AdminSidebar } from "@/components/admin/AdminSidebar";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function AdminDashboardLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <div className="flex h-screen bg-background overflow-hidden selection:bg-primary/30">
@@ -20,5 +20,5 @@ export default function AdminDashboardLayout({
         </div>
       </main>
     </div>
-  )
+  );
 }

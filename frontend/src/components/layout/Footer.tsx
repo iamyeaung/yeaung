@@ -8,13 +8,28 @@ export function Footer() {
           <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
           Ye Aung<span className="text-orange-500">.</span>
         </div>
-        
+
         <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-          <Link href="/about" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">About</Link>
-          <Link href="/privacy" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">Privacy</Link>
-          <Link href="/terms" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">Terms</Link>
+          <Link
+            href="/about"
+            className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+          >
+            About
+          </Link>
+          <Link
+            href="/privacy"
+            className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+          >
+            Privacy
+          </Link>
+          <Link
+            href="/terms"
+            className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+          >
+            Terms
+          </Link>
         </nav>
-        
+
         <div className="text-xs text-gray-400 dark:text-gray-500 transition-colors">
           &copy; {new Date().getFullYear()} Ye Aung. All rights reserved.
         </div>

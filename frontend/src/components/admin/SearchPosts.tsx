@@ -1,40 +1,40 @@
-'use client'
+"use client";
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useTransition, useState, useEffect, useRef, useCallback } from 'react'
-import { Search } from 'lucide-react'
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useTransition, useState, useEffect, useRef, useCallback } from "react";
+import { Search } from "lucide-react";
 
 export function SearchPosts() {
-  const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const [isPending, startTransition] = useTransition()
-  
-  const [query, setQuery] = useState(searchParams.get('query') || '')
-  const searchParamsRef = useRef(searchParams)
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
+
+  const [query, setQuery] = useState(searchParams.get("query") || "");
+  const searchParamsRef = useRef(searchParams);
 
   // Keep ref in sync without triggering effects
   useEffect(() => {
-    searchParamsRef.current = searchParams
-  }, [searchParams])
+    searchParamsRef.current = searchParams;
+  }, [searchParams]);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      const params = new URLSearchParams(searchParamsRef.current)
+      const params = new URLSearchParams(searchParamsRef.current);
       if (query) {
-        params.set('query', query)
+        params.set("query", query);
       } else {
-        params.delete('query')
+        params.delete("query");
       }
-      params.delete('page') // reset page when searching
+      params.delete("page"); // reset page when searching
 
       startTransition(() => {
-        router.push(`${pathname}?${params.toString()}`)
-      })
-    }, 300) // 300ms debounce
+        router.push(`${pathname}?${params.toString()}`);
+      });
+    }, 300); // 300ms debounce
 
-    return () => clearTimeout(delayDebounceFn)
-  }, [query, pathname, router, startTransition])
+    return () => clearTimeout(delayDebounceFn);
+  }, [query, pathname, router, startTransition]);
 
   return (
     <div className="relative flex-1 max-w-sm">
@@ -54,5 +54,5 @@ export function SearchPosts() {
         </div>
       )}
     </div>
-  )
+  );
 }
