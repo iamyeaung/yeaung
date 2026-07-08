@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { api, ApiError } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import type { DailyLogMood } from "@/types/daily-log";
+import { useLocale } from "next-intl";
 
 const MOOD_OPTIONS: { value: DailyLogMood; label: string; emoji: string }[] = [
   { value: "great", label: "Great", emoji: "🔥" },
@@ -15,6 +16,7 @@ const MOOD_OPTIONS: { value: DailyLogMood; label: string; emoji: string }[] = [
 ];
 
 export function DailyLogForm() {
+  const locale = useLocale();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [mood, setMood] = useState<DailyLogMood | "">("");
@@ -33,6 +35,7 @@ export function DailyLogForm() {
         title,
         content,
         mood: mood || undefined,
+        locale,
       });
       setSuccess(true);
       setTitle("");
@@ -53,7 +56,10 @@ export function DailyLogForm() {
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Title */}
       <div>
-        <label htmlFor="title" className="mb-1 block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="title"
+          className="mb-1 block text-sm font-medium text-gray-700"
+        >
           Title
         </label>
         <input
@@ -69,7 +75,10 @@ export function DailyLogForm() {
 
       {/* Content (Markdown textarea) */}
       <div>
-        <label htmlFor="content" className="mb-1 block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="content"
+          className="mb-1 block text-sm font-medium text-gray-700"
+        >
           Daily Log <span className="text-gray-400">(Markdown supported)</span>
         </label>
         <textarea
