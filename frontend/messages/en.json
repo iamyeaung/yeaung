@@ -1,0 +1,43 @@
+{
+  "Navbar": {
+    "title": "Ye Aung",
+    "all": "All",
+    "github": "GitHub ↗",
+    "publicSite": "Public Site",
+    "signOut": "Sign Out",
+    "admin": "Admin"
+  },
+  "Hero": {
+    "tech": "Tech.",
+    "slogan": "Document your engineering breakthroughs.",
+    "description": "A high-performance Knowledge Management System. Track daily bug fixes, preserve code snippets, and build a demonstrable Full-Stack portfolio."
+  },
+  "Feed": {
+    "featured": "Featured Posts",
+    "latest": "Latest Articles",
+    "empty": "No logs recorded yet. Your stream is a clean slate!"
+  },
+  "Sidebar": {
+    "mainMenu": "Main Menu",
+    "publicSite": "Public Site",
+    "signOut": "Sign Out",
+    "admin": "Admin",
+    "menu": "Menu",
+    "dashboard": "Dashboard",
+    "posts": "Posts",
+    "categories": "Categories",
+    "mustRead": "Must Read",
+    "seeAll": "See all",
+    "subscribeTitle": "Subscribe to our",
+    "subscribeSubtitle": "newsletter",
+    "emailPlaceholder": "Enter Your Email",
+    "subscribeButton": "Subscribe"
+  },
+  "Login": {
+    "title": "Admin Access",
+    "subtitle": "Sign in to manage your logs and categories",
+    "emailLabel": "Email Address",
+    "passwordLabel": "Password",
+    "button": "Sign In"
+  }
+}

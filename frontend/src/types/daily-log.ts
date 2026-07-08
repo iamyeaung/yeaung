@@ -12,6 +12,7 @@ export interface DailyLog {
   createdAt: string;
   updatedAt: string;
   image_url?: string | null;
+  locale: string;
 }
 
 export interface CreateDailyLog {
@@ -19,6 +20,7 @@ export interface CreateDailyLog {
   content: string;
   mood?: DailyLogMood;
   tags?: string[];
+  locale?: string;
 }
 
 export interface ApiError {

@@ -1,7 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 import type { DailyLog, CreateDailyLog } from "@/types/daily-log";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
+const supabaseUrl =
+  process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder";
 
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -30,6 +31,7 @@ function mapToCamelCase(row: any): DailyLog {
     createdAt: row.created_at,
     updatedAt: row.updated_at,
     image_url: row.image_url,
+    locale: row.locale || "en",
   };
 }
 
@@ -47,6 +49,7 @@ export const api = {
           mood: data.mood ?? null,
           tags: data.tags ?? null,
           user_id: mockUserId,
+          locale: data.locale ?? "en",
         })
         .select()
         .single();
@@ -58,11 +61,22 @@ export const api = {
       return { data: mapToCamelCase(row) };
     },
 
-    list: async (): Promise<{ data: DailyLog[] }> => {
-      const { data: rows, error } = await supabase
+    list: async (locale?: string): Promise<{ data: DailyLog[] }> => {
+      let query = supabase
         .from("daily_logs")
         .select("*")
         .order("created_at", { ascending: false });
+
+      if (locale) {
+        if (locale === "mm") {
+          query = query.eq("locale", "mm");
+        } else {
+          // If 'en', matches 'en' or rows without a locale
+          query = query.or("locale.eq.en,locale.is.null");
+        }
+      }
+
+      const { data: rows, error } = await query;
 
       if (error) {
         throw new ApiError(500, error.message);
@@ -72,16 +86,19 @@ export const api = {
     },
 
     get: async (idOrSlug: string): Promise<{ data: DailyLog }> => {
-      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(idOrSlug);
-      
+      const isUuid =
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+          idOrSlug,
+        );
+
       let query = supabase.from("daily_logs").select("*");
-      
+
       if (isUuid) {
         query = query.eq("id", idOrSlug);
       } else {
         query = query.eq("slug", idOrSlug);
       }
-      
+
       const { data: row, error } = await query.single();
 
       if (error) {
