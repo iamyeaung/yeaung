@@ -53,3 +53,4 @@ When an AI agent commits code (e.g., via the `safe-commit` skill):
 - The agent **must** use the appropriate Semantic Commit prefix.
 - The agent **must** confirm that no sensitive environment variables or secrets are being committed.
 - The agent should summarize changes clearly in the commit message body if the diff is large.
+
