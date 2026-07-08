@@ -3,9 +3,15 @@
 > **Goal:** High-performance Knowledge Management System built with Next.js (App Router), Tailwind CSS, and Supabase.
 
 ## Current Focus
-Fixed Vercel deployment issues by resolving ESLint peer dependency conflicts and guiding the user through Vercel Dashboard configurations (Root Directory, Framework Preset, and Supabase Environment Variables).
+Completed Chapter 4 and Chapter 5 homework requirements (shipped project URL, screenshots capture, tech-stack slides, feedback files, and team report branch uploads).
 
 ## Log
+
+- **2026-07-08**: Completed Chapter 4 and Chapter 5 homework deliverables.
+  - **Changed:** Added MIT `LICENSE` and project `screenshots/` (landing, dashboard, login) in project repo. Created `slides/tech-stack.md` and `feedback/feedback.md` in project repo. Generated, committed, and pushed `ch-4/iamyeaung/report.md` and `ch-5/iamyeaung/report.md` in `team-10` repo. Fixed empty/missing proposals (`iamyeaung.md` and `@alexjoker5`) in `team-10` repo to make CI build green.
+  - **Why:** To satisfy course homework requirements and clear team-10 repository assignment verification blocks.
+  - **Gotchas:** `doctor.sh` checks the remote GitHub default branch for the report.md files, so branches must be pushed/merged for remote checks to pass. Host Git Bash should be used if WSL lacks Node/Claude binary PATHs.
+  - **Open threads:** None.
 
 - **2026-07-08**: Implemented multi-language support (en, mm) using next-intl and dynamic locale database filtering.
   - **Changed:** Refactored routing folder structure to `/[locale]/` dynamic segments. Configured `next-intl` configuration and added translations directories. Merged dynamic language router with Supabase authorization checker in `proxy.ts` middleware. Modified SQL migration mapping, schemas, and queries to filter and insert logs tagged with the target language. Created LanguageSwitcher button and integrated it into the header navbar.
