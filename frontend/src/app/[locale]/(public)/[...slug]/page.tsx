@@ -1,5 +1,5 @@
 import { api } from "@/lib/api";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { Sidebar } from "@/components/layout/Sidebar";
 
@@ -14,14 +14,18 @@ const TAG_IMAGE_MAP: Record<string, string> = {
   checkpointer: "1555939594595-814fe04cb880",
   harness: "1561070791266-298379c65691",
   nextjs: "1555066931-4365d14bab8c",
-  react: "1522881193437-013143c74c15"
+  react: "1522881193437-013143c74c15",
 };
 
 const FALLBACK_IMAGE = "1498050108023-c5249f4df085";
 
-export default async function LogDetailPage({ params }: { params: Promise<{ slug: string[] }> }) {
-  const { slug } = await params;
-  
+export default async function LogDetailPage({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string[] }>;
+}) {
+  const { locale, slug } = await params;
+
   // Extract the actual post slug (or id) from the URL segments
   // For /post-slug, slug is ['post-slug']
   // For /category/post-slug, slug is ['category', 'post-slug']
@@ -29,11 +33,11 @@ export default async function LogDetailPage({ params }: { params: Promise<{ slug
 
   let log;
   let allLogs: any[] = [];
-  
+
   try {
     const [logRes, listRes] = await Promise.all([
       api.dailyLogs.get(idOrSlug),
-      api.dailyLogs.list()
+      api.dailyLogs.list(locale),
     ]);
     log = logRes.data;
     allLogs = listRes.data;
@@ -48,32 +52,41 @@ export default async function LogDetailPage({ params }: { params: Promise<{ slug
   // Determine Thumbnail Image
   let imageId = FALLBACK_IMAGE;
   if (log.tags && log.tags.length > 0) {
-    const specificTag = log.tags.find((t: string) => t.toLowerCase() !== 'ai' && t.toLowerCase() !== 'featured');
+    const specificTag = log.tags.find(
+      (t: string) => t.toLowerCase() !== "ai" && t.toLowerCase() !== "featured",
+    );
     if (specificTag && TAG_IMAGE_MAP[specificTag.toLowerCase()]) {
       imageId = TAG_IMAGE_MAP[specificTag.toLowerCase()];
     }
   }
-  const imageUrl = log.image_url || `https://images.unsplash.com/photo-${imageId}?w=1200&q=80&auto=format`;
+  const imageUrl =
+    log.image_url ||
+    `https://images.unsplash.com/photo-${imageId}?w=1200&q=80&auto=format`;
 
   return (
     <div className="w-full bg-[#F9F8F4] dark:bg-gray-950 transition-colors">
       <div className="mx-auto max-w-[1200px] px-6 pb-16 pt-8 w-full">
-        <Link href="/" className="inline-flex items-center text-[13px] font-bold text-gray-500 hover:text-[#FF5722] dark:hover:text-[#FF5722] mb-6 transition-colors uppercase tracking-wider">
+        <Link
+          href="/"
+          className="inline-flex items-center text-[13px] font-bold text-gray-500 hover:text-[#FF5722] dark:hover:text-[#FF5722] mb-6 transition-colors uppercase tracking-wider"
+        >
           <span className="mr-2">←</span> Back to stream
         </Link>
-        
+
         <div className="flex flex-col xl:flex-row gap-8 lg:gap-10 items-start">
-          
           {/* LEFT: MAIN POST */}
           <div className="flex-1 w-full">
             <article className="rounded-[1.5rem] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm overflow-hidden transition-colors">
-              
               {/* Thumbnail Banner */}
               <div className="w-full h-64 md:h-80 lg:h-[400px] relative bg-gray-100 dark:bg-gray-800 transition-colors">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={imageUrl} alt="Thumbnail" className="w-full h-full object-cover" />
+                <img
+                  src={imageUrl}
+                  alt="Thumbnail"
+                  className="w-full h-full object-cover"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                
+
                 <div className="absolute bottom-6 left-6 right-6 flex flex-wrap gap-2 items-center">
                   {log.category && (
                     <span className="rounded-lg bg-blue-600 px-3 py-1 font-bold text-[10px] text-white uppercase tracking-wider shadow-sm">
@@ -81,7 +94,10 @@ export default async function LogDetailPage({ params }: { params: Promise<{ slug
                     </span>
                   )}
                   {log.tags?.map((tag: string, idx: number) => (
-                    <span key={idx} className="rounded-lg bg-[#FF5722] px-3 py-1 font-bold text-[10px] text-white uppercase tracking-wider shadow-sm">
+                    <span
+                      key={idx}
+                      className="rounded-lg bg-[#FF5722] px-3 py-1 font-bold text-[10px] text-white uppercase tracking-wider shadow-sm"
+                    >
                       {tag}
                     </span>
                   ))}
@@ -94,16 +110,26 @@ export default async function LogDetailPage({ params }: { params: Promise<{ slug
                     <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden transition-colors">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${log.id}`} alt="Author" className="w-full h-full object-cover" />
+                        <img
+                          src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${log.id}`}
+                          alt="Author"
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       <span className="text-[#FF5722]">Ye Aung</span>
                     </div>
-                    <span className="text-gray-300 dark:text-gray-600 transition-colors">•</span>
+                    <span className="text-gray-300 dark:text-gray-600 transition-colors">
+                      •
+                    </span>
                     <time>
-                      {new Date(log.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+                      {new Date(log.createdAt).toLocaleDateString("en-US", {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
                     </time>
                   </div>
-                  
+
                   <h1 className="text-3xl md:text-[42px] font-extrabold text-gray-900 dark:text-gray-100 tracking-tight leading-[1.2] transition-colors">
                     {log.title}
                   </h1>
@@ -118,7 +144,6 @@ export default async function LogDetailPage({ params }: { params: Promise<{ slug
 
           {/* RIGHT: SIDEBAR */}
           <Sidebar logs={allLogs} />
-
         </div>
       </div>
     </div>
