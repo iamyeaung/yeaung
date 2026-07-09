@@ -7,6 +7,12 @@ Completed Chapter 6 polish and feature completion (bilingual redirect preservati
 
 ## Log
 
+- **2026-07-09**: Renamed project brand from "Daily Log" to "The Notebook".
+  - **Changed:** Replaced text occurrences of "Daily Log" with "The Notebook" (and "နေ့စဉ်မှတ်တမ်းများ" with "မှတ်စုများ" in `mm.json`) across `README.md`, layouts, components, and translations.
+  - **Why:** The user requested a name that better suits a general knowledge sharing project.
+  - **Gotchas:** None.
+  - **Open threads:** None.
+
 - **2026-07-09**: Rewrote project README.md for gallery display.
   - **Changed:** Created a comprehensive README.md including project status, tech stack, structure, and getting started instructions.
   - **Why:** To document the project structure and setup instructions clearly, fulfilling the user's request based on a provided template.

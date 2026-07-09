@@ -1,6 +1,6 @@
-# 📘 Yeaung Daily Log
+# 📘 The Notebook
 
-A high-performance developer daily log and Knowledge Management System built with Next.js (App Router), Tailwind CSS, and Supabase.
+A high-performance developer notebook and Knowledge Management System built with Next.js (App Router), Tailwind CSS, and Supabase.
 
 ## Status
 

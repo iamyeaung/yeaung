@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 
 export const metadata: Metadata = {
-  title: "Ye Aung — Daily Log",
+  title: "Ye Aung — The Notebook",
   description: "A Knowledge Management System for developers",
 };
 

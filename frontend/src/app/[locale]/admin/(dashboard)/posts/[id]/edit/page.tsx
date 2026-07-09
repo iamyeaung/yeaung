@@ -48,7 +48,9 @@ export default async function EditPostPage({
     <div className="w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div>
         <h1 className="text-3xl font-bold tracking-tight mb-2">Edit Post</h1>
-        <p className="text-muted-foreground">Make changes to your daily log.</p>
+        <p className="text-muted-foreground">
+          Make changes to your notebook entry.
+        </p>
       </div>
 
       <PostForm initialData={post} categories={categories || []} />

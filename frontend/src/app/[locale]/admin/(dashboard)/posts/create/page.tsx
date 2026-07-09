@@ -15,7 +15,7 @@ export default async function CreatePostPage() {
           Create New Post
         </h1>
         <p className="text-muted-foreground">
-          Add a new entry to your daily logs.
+          Add a new entry to your notebook.
         </p>
       </div>
 

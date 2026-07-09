@@ -120,7 +120,7 @@ export function DailyLogForm() {
           htmlFor="content"
           className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
         >
-          Daily Log{" "}
+          Notebook Entry{" "}
           <span className="text-gray-400 dark:text-gray-500">
             (Markdown supported)
           </span>
@@ -209,7 +209,7 @@ export function DailyLogForm() {
       {/* Status messages */}
       {success && (
         <div className="rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
-          ✅ Daily log saved successfully!
+          ✅ Notebook entry saved successfully!
         </div>
       )}
       {error && (
@@ -221,7 +221,7 @@ export function DailyLogForm() {
       {/* Submit */}
       <div className="flex justify-end">
         <Button type="submit" isLoading={isSubmitting} size="lg">
-          Save Daily Log
+          Save Notebook Entry
         </Button>
       </div>
     </form>
