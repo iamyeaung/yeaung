@@ -10,6 +10,7 @@ import {
 import { useLocale } from "next-intl";
 import rehypeSanitize from "rehype-sanitize";
 import { useTheme } from "next-themes";
+import { slugify } from "@/lib/utils";
 
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
@@ -92,7 +93,7 @@ export function PostForm({ initialData, categories }: PostFormProps) {
       : "http://localhost:3000";
   const displayId = slug.trim()
     ? slug.trim()
-    : initialData?.id || "new-post-id";
+    : (initialData?.title ? slugify(initialData.title) : "new-post-slug");
   const displayCategory = category.trim() ? `${category.trim()}/` : "";
   const previewUrl = `${baseUrl}/${displayCategory}${displayId}`;
 
