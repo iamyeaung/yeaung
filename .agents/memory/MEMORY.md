@@ -7,6 +7,12 @@ Completed Chapter 6 polish and feature completion (bilingual redirect preservati
 
 ## Log
 
+- **2026-07-09**: Rewrote project README.md for gallery display.
+  - **Changed:** Created a comprehensive README.md including project status, tech stack, structure, and getting started instructions.
+  - **Why:** To document the project structure and setup instructions clearly, fulfilling the user's request based on a provided template.
+  - **Gotchas:** None.
+  - **Open threads:** None.
+
 - **2026-07-09**: Completed Chapter 6 features and UI polish requirements.
   - **Changed:** Fixed login/logout redirects by passing locale parameter to Server Actions; added LanguageSwitcher in admin dashboard layout header; localized admin dashboard overview, posts, and categories views in `en.json`/`mm.json`; added Markdown formatting toolbar above `daily-log-form.tsx` textarea; implemented client-side search and pagination using a new `LogFeedClient` component.
   - **Why:** To solve user feedback issues, enable localized admin panel control, improve markdown editor UX, and support instant logs search.
