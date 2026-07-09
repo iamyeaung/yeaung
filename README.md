@@ -4,6 +4,8 @@ A high-performance developer notebook and Knowledge Management System built with
 
 This platform allows developers to document daily bug fixes, preserve code snippets, and build a demonstrable Full-Stack portfolio.
 
+![App Screenshot](screenshots/01.png)
+
 ## ✨ Features
 
 - **Blazing Fast**: Server Components and Supabase for instant page loads.
