@@ -2,21 +2,30 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+import { categorySchema } from "@/lib/validations";
 
 export async function createCategory(formData: FormData) {
   const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("Unauthorized");
 
-  const name = formData.get("name") as string;
-  const slug = formData.get("slug") as string;
+  try {
+    const rawData = {
+      name: formData.get("name") as string,
+      slug: formData.get("slug") as string,
+    };
+    
+    const validatedData = categorySchema.parse(rawData);
 
-  if (!name || !slug) {
-    throw new Error("Name and slug are required");
-  }
+    const { error } = await supabase.from("categories").insert(validatedData);
 
-  const { error } = await supabase.from("categories").insert({ name, slug });
-
-  if (error) {
-    throw new Error("Failed to create category: " + error.message);
+    if (error) {
+      console.error("DB error in createCategory:", error.message);
+      throw new Error("Failed to create category.");
+    }
+  } catch (err: any) {
+    console.error("Action error in createCategory:", err.message);
+    throw new Error("Failed to create category. Please try again later.");
   }
 
   revalidatePath("/admin/categories");
@@ -25,21 +34,29 @@ export async function createCategory(formData: FormData) {
 
 export async function updateCategory(id: string, formData: FormData) {
   const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("Unauthorized");
 
-  const name = formData.get("name") as string;
-  const slug = formData.get("slug") as string;
+  try {
+    const rawData = {
+      name: formData.get("name") as string,
+      slug: formData.get("slug") as string,
+    };
+    
+    const validatedData = categorySchema.parse(rawData);
 
-  if (!name || !slug) {
-    throw new Error("Name and slug are required");
-  }
+    const { error } = await supabase
+      .from("categories")
+      .update(validatedData)
+      .eq("id", id);
 
-  const { error } = await supabase
-    .from("categories")
-    .update({ name, slug })
-    .eq("id", id);
-
-  if (error) {
-    throw new Error("Failed to update category: " + error.message);
+    if (error) {
+      console.error("DB error in updateCategory:", error.message);
+      throw new Error("Failed to update category.");
+    }
+  } catch (err: any) {
+    console.error("Action error in updateCategory:", err.message);
+    throw new Error("Failed to update category. Please try again later.");
   }
 
   revalidatePath("/admin/categories");
@@ -48,11 +65,18 @@ export async function updateCategory(id: string, formData: FormData) {
 
 export async function deleteCategory(id: string) {
   const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("Unauthorized");
 
-  const { error } = await supabase.from("categories").delete().eq("id", id);
-
-  if (error) {
-    throw new Error("Failed to delete category: " + error.message);
+  try {
+    const { error } = await supabase.from("categories").delete().eq("id", id);
+    if (error) {
+      console.error("DB error in deleteCategory:", error.message);
+      throw new Error("Failed to delete category.");
+    }
+  } catch (err: any) {
+    console.error("Action error in deleteCategory:", err.message);
+    throw new Error("Failed to delete category. Please try again later.");
   }
 
   revalidatePath("/admin/categories");
