@@ -7,6 +7,12 @@ Completed Chapter 6 polish and feature completion (bilingual redirect preservati
 
 ## Log
 
+- **2026-07-09**: Renamed internal system codename from "DevPulse" to "The Notebook".
+  - **Changed:** Renamed references in `package.json`, `slides/pitch.md`, `slides/tech-stack.md`, and `feedback/feedback.md`. Renamed agent file from `devpulse-builder.md` to `notebook-builder.md`.
+  - **Why:** To maintain consistency across the system name and project name after rebranding to a general knowledge management focus.
+  - **Gotchas:** None.
+  - **Open threads:** None.
+
 - **2026-07-09**: Renamed project brand from "Daily Log" to "The Notebook".
   - **Changed:** Replaced text occurrences of "Daily Log" with "The Notebook" (and "နေ့စဉ်မှတ်တမ်းများ" with "မှတ်စုများ" in `mm.json`) across `README.md`, layouts, components, and translations.
   - **Why:** The user requested a name that better suits a general knowledge sharing project.

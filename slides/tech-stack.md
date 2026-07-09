@@ -8,7 +8,7 @@ color: #fff
 background-color: #1e1e2e
 ---
 
-# DevPulse Tech Stack & Workflow
+# The Notebook Tech Stack & Workflow
 ### Understanding the KMS & Developer Portfolio Architecture
 **Developer:** @iamyeaung
 
@@ -28,7 +28,7 @@ background-color: #1e1e2e
 
 # AI Agents
 
-- **Agent File:** `.claude/agents/devpulse-builder.md`
+- **Agent File:** `.claude/agents/notebook-builder.md`
 - **Purpose:** Expert assistant for Full-Stack developer operations.
 - **Responsibilities:**
   - Enforces Next.js App Router patterns.

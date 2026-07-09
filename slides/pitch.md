@@ -20,7 +20,7 @@ auto-advance: 20
 ---
 
 # What I built
-- **DevPulse**: A Web-Based Knowledge Management System (KMS).
+- **The Notebook**: A Web-Based Knowledge Management System (KMS).
 - Features a Markdown Workspace and a Dual-Hub Repository.
 - Acts as both a private daily log and a public portfolio platform.
 
@@ -30,7 +30,7 @@ auto-advance: 20
 - **Tech Stack**: Next.js 14 (App Router Monolith), Tailwind CSS, and Supabase (PostgreSQL + Auth).
 - **MCP**: Filesystem configured for direct local read/write access.
 - **Skill**: `laravel-react` (Best practices for clean API and UI).
-- **Agent**: `devpulse-builder` (Expert Full-Stack developer assistant).
+- **Agent**: `notebook-builder` (Expert Full-Stack developer assistant).
 
 ---
 

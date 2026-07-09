@@ -1,4 +1,4 @@
-# User Feedback — DevPulse
+# User Feedback — The Notebook
 
 - **How collected:** Shared the live Vercel link with 3 IT students and developers, and collected written feedback via chat message.
 - **When:** 2026-07-08
