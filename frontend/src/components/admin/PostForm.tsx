@@ -7,7 +7,7 @@ import {
   createPost,
   updatePost,
 } from "@/app/[locale]/admin/(dashboard)/posts/actions";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import rehypeSanitize from "rehype-sanitize";
 import { useTheme } from "next-themes";
 import { slugify } from "@/lib/utils";
@@ -42,6 +42,61 @@ const FALLBACK_IMAGES = [
 // Lazy import for the markdown editor to avoid SSR issues
 const MDEditor = lazy(() => import("@uiw/react-md-editor"));
 
+const MarkdownToolbar = ({
+  onInsert,
+}: {
+  onInsert: (before: string, after?: string) => void;
+}) => {
+  return (
+    <div className="flex flex-wrap items-center gap-2 p-2 bg-muted/30 border-b border-border">
+      <button
+        type="button"
+        onClick={() => onInsert("**", "**")}
+        className="px-3 py-1.5 text-xs font-bold text-foreground bg-background border border-border rounded hover:bg-muted transition-colors shadow-sm"
+        title="Bold"
+      >
+        B
+      </button>
+      <button
+        type="button"
+        onClick={() => onInsert("*", "*")}
+        className="px-3 py-1.5 text-xs italic text-foreground bg-background border border-border rounded hover:bg-muted transition-colors shadow-sm"
+        title="Italic"
+      >
+        I
+      </button>
+      <button
+        type="button"
+        onClick={() => onInsert("```\n", "\n```")}
+        className="px-3 py-1.5 text-xs font-mono text-foreground bg-background border border-border rounded hover:bg-muted transition-colors shadow-sm"
+        title="Code Block"
+      >
+        {`</>`}
+      </button>
+      <button
+        type="button"
+        onClick={() => onInsert("[Link Text](url)")}
+        className="px-3 py-1.5 text-xs text-foreground bg-background border border-border rounded hover:bg-muted transition-colors shadow-sm"
+        title="Link"
+      >
+        Link
+      </button>
+      <button
+        type="button"
+        onClick={() =>
+          onInsert(
+            "\n| Header | Header |\n| ------ | ------ |\n| Cell   | Cell   |\n",
+          )
+        }
+        className="px-3 py-1.5 text-xs text-foreground bg-background border border-border rounded hover:bg-muted transition-colors shadow-sm"
+        title="Table"
+      >
+        Table
+      </button>
+    </div>
+  );
+};
+
 type PostFormProps = {
   initialData?: {
     id: string;
@@ -58,6 +113,7 @@ type PostFormProps = {
 
 export function PostForm({ initialData, categories }: PostFormProps) {
   const locale = useLocale();
+  const t = useTranslations("Admin");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [content, setContent] = useState(initialData?.content || "");
@@ -66,6 +122,10 @@ export function PostForm({ initialData, categories }: PostFormProps) {
   const [imageUrl, setImageUrl] = useState(initialData?.image_url || "");
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
+
+  const handleInsertMarkdown = (before: string, after: string = "") => {
+    setContent((prev) => prev + before + after);
+  };
   const { resolvedTheme } = useTheme();
 
   let defaultImageId =
@@ -93,7 +153,9 @@ export function PostForm({ initialData, categories }: PostFormProps) {
       : "http://localhost:3000";
   const displayId = slug.trim()
     ? slug.trim()
-    : (initialData?.title ? slugify(initialData.title) : "new-post-slug");
+    : initialData?.title
+      ? slugify(initialData.title)
+      : "new-post-slug";
   const displayCategory = category.trim() ? `${category.trim()}/` : "";
   const previewUrl = `${baseUrl}/${displayCategory}${displayId}`;
 
@@ -139,7 +201,7 @@ export function PostForm({ initialData, categories }: PostFormProps) {
               htmlFor="title"
               className="text-sm font-semibold tracking-wide uppercase text-muted-foreground"
             >
-              Title
+              {t("postTitleLabel")}
             </label>
             <input
               id="title"
@@ -158,9 +220,10 @@ export function PostForm({ initialData, categories }: PostFormProps) {
             }
           >
             <label className="text-sm font-semibold tracking-wide uppercase text-muted-foreground">
-              Content (Markdown)
+              {t("postContentLabel")}
             </label>
-            <div className="border border-border rounded-md overflow-hidden bg-background min-h-[600px]">
+            <div className="border border-border rounded-md overflow-hidden bg-background min-h-[600px] flex flex-col">
+              <MarkdownToolbar onInsert={handleInsertMarkdown} />
               {mounted ? (
                 <Suspense
                   fallback={
@@ -176,7 +239,7 @@ export function PostForm({ initialData, categories }: PostFormProps) {
                       rehypePlugins: [[rehypeSanitize]],
                     }}
                     height={600}
-                    className="w-full !border-0 text-base"
+                    className="w-full !border-0 text-base flex-1"
                     textareaProps={{
                       placeholder: "Write your log here using Markdown...",
                     }}
@@ -197,7 +260,7 @@ export function PostForm({ initialData, categories }: PostFormProps) {
         {/* Publish Block */}
         <div className="bg-card border border-border rounded-xl p-6 shadow-sm space-y-4">
           <h3 className="font-semibold text-sm border-b border-border pb-3 uppercase tracking-wider text-muted-foreground">
-            Publish
+            {t("publishBlock")}
           </h3>
 
           <div className="flex flex-col gap-3 pt-2">
@@ -209,14 +272,14 @@ export function PostForm({ initialData, categories }: PostFormProps) {
               {isSubmitting && (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
-              {initialData ? "Save Changes" : "Create Post"}
+              {initialData ? t("saveChanges") : t("createPost")}
             </button>
             <button
               type="button"
               onClick={() => router.back()}
               className="w-full px-4 py-2.5 text-sm font-medium text-foreground bg-muted hover:bg-muted/80 rounded-md transition-colors"
             >
-              Cancel
+              {t("cancel")}
             </button>
           </div>
         </div>
@@ -224,12 +287,12 @@ export function PostForm({ initialData, categories }: PostFormProps) {
         {/* Settings Block */}
         <div className="bg-card border border-border rounded-xl p-6 shadow-sm space-y-6">
           <h3 className="font-semibold text-sm border-b border-border pb-3 uppercase tracking-wider text-muted-foreground">
-            Settings
+            {t("settingsBlock")}
           </h3>
 
           <div className="space-y-3">
             <label htmlFor="image_url" className="text-sm font-medium">
-              Thumbnail Image URL
+              {t("thumbnailLabel")}
             </label>
             <div className="w-full aspect-video rounded-md overflow-hidden bg-muted border border-border relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -242,7 +305,7 @@ export function PostForm({ initialData, categories }: PostFormProps) {
               />
               {!imageUrl && (
                 <div className="absolute top-2 right-2 bg-black/70 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md backdrop-blur-sm">
-                  Auto-generated
+                  {t("autoGenerated")}
                 </div>
               )}
             </div>
@@ -258,7 +321,7 @@ export function PostForm({ initialData, categories }: PostFormProps) {
 
           <div className="space-y-2">
             <label htmlFor="category" className="text-sm font-medium">
-              Category
+              {t("categoryLabel")}
             </label>
             <select
               id="category"
@@ -267,7 +330,7 @@ export function PostForm({ initialData, categories }: PostFormProps) {
               onChange={(e) => setCategory(e.target.value)}
               className="w-full rounded-md px-3 py-2 text-sm bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all appearance-none"
             >
-              <option value="">Select a category...</option>
+              <option value="">{t("selectCategory")}</option>
               {categories.map((c) => (
                 <option key={c.id} value={c.slug}>
                   {c.name}
@@ -278,7 +341,7 @@ export function PostForm({ initialData, categories }: PostFormProps) {
 
           <div className="space-y-2">
             <label htmlFor="slug" className="text-sm font-medium">
-              Custom URL (Slug)
+              {t("slugLabel")}
             </label>
             <input
               id="slug"
@@ -303,7 +366,7 @@ export function PostForm({ initialData, categories }: PostFormProps) {
 
           <div className="space-y-2">
             <label htmlFor="mood" className="text-sm font-medium">
-              Mood (Optional)
+              {t("moodLabel")}
             </label>
             <input
               id="mood"
@@ -316,7 +379,7 @@ export function PostForm({ initialData, categories }: PostFormProps) {
 
           <div className="space-y-2">
             <label htmlFor="tags" className="text-sm font-medium">
-              Tags
+              {t("tagsLabel")}
             </label>
             <input
               id="tags"

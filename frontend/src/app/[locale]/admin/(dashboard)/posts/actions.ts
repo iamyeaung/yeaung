@@ -7,7 +7,9 @@ import { slugify } from "@/lib/utils";
 
 export async function deletePost(id: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) throw new Error("Unauthorized");
 
   try {
@@ -27,7 +29,9 @@ export async function deletePost(id: string) {
 
 export async function createPost(formData: FormData) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) throw new Error("Unauthorized");
 
   try {
@@ -35,7 +39,9 @@ export async function createPost(formData: FormData) {
       title: formData.get("title") as string,
       content: formData.get("content") as string,
       mood: (formData.get("mood") as string) || null,
-      slug: (formData.get("slug") as string) || slugify(formData.get("title") as string),
+      slug:
+        (formData.get("slug") as string) ||
+        slugify(formData.get("title") as string),
       category: (formData.get("category") as string) || null,
       image_url: (formData.get("image_url") as string) || null,
       tags: (formData.get("tags") as string) || null,
@@ -46,13 +52,19 @@ export async function createPost(formData: FormData) {
 
     const post = {
       ...validatedData,
-      tags: validatedData.tags ? validatedData.tags.split(",").map((t) => t.trim()) : [],
+      tags: validatedData.tags
+        ? validatedData.tags.split(",").map((t) => t.trim())
+        : [],
       user_id: user.id,
     };
 
     let { error } = await supabase.from("daily_logs").insert(post);
 
-    if (error && error.message.includes("image_url") && error.message.includes("schema cache")) {
+    if (
+      error &&
+      error.message.includes("image_url") &&
+      error.message.includes("schema cache")
+    ) {
       const fallbackPost = { ...post };
       delete (fallbackPost as any).image_url;
       const retry = await supabase.from("daily_logs").insert(fallbackPost);
@@ -74,7 +86,9 @@ export async function createPost(formData: FormData) {
 
 export async function updatePost(id: string, formData: FormData) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) throw new Error("Unauthorized");
 
   try {
@@ -82,7 +96,9 @@ export async function updatePost(id: string, formData: FormData) {
       title: formData.get("title") as string,
       content: formData.get("content") as string,
       mood: (formData.get("mood") as string) || null,
-      slug: (formData.get("slug") as string) || slugify(formData.get("title") as string),
+      slug:
+        (formData.get("slug") as string) ||
+        slugify(formData.get("title") as string),
       category: (formData.get("category") as string) || null,
       image_url: (formData.get("image_url") as string) || null,
       tags: (formData.get("tags") as string) || null,
@@ -93,15 +109,24 @@ export async function updatePost(id: string, formData: FormData) {
 
     const post = {
       ...validatedData,
-      tags: validatedData.tags ? validatedData.tags.split(",").map((t) => t.trim()) : [],
+      tags: validatedData.tags
+        ? validatedData.tags.split(",").map((t) => t.trim())
+        : [],
     };
 
     let { error } = await supabase.from("daily_logs").update(post).eq("id", id);
 
-    if (error && error.message.includes("image_url") && error.message.includes("schema cache")) {
+    if (
+      error &&
+      error.message.includes("image_url") &&
+      error.message.includes("schema cache")
+    ) {
       const fallbackPost = { ...post };
       delete (fallbackPost as any).image_url;
-      const retry = await supabase.from("daily_logs").update(fallbackPost).eq("id", id);
+      const retry = await supabase
+        .from("daily_logs")
+        .update(fallbackPost)
+        .eq("id", id);
       error = retry.error;
     }
 

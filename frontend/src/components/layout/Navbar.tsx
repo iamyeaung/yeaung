@@ -3,6 +3,7 @@ import { api } from "@/lib/api";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { getTranslations } from "next-intl/server";
+import { MobileMenu } from "./MobileMenu";
 
 export async function Navbar({ locale }: { locale?: string }) {
   const t = await getTranslations("Navbar");
@@ -63,11 +64,8 @@ export async function Navbar({ locale }: { locale?: string }) {
             {t("github")}
           </a>
 
-          {/* Mobile Menu Button */}
-          <button className="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 shadow-sm transition-colors hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-[#FF5722] dark:hover:text-[#FF5722]">
-            <span className="w-5 h-[2px] bg-current mb-1.5 rounded-full"></span>
-            <span className="w-5 h-[2px] bg-current rounded-full"></span>
-          </button>
+          {/* Mobile Menu Button & Drawer */}
+          <MobileMenu categories={categories} />
         </div>
       </div>
     </header>

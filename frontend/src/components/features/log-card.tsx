@@ -41,7 +41,7 @@ export function LogCard({ log }: { log: DailyLog }) {
       className="group flex flex-col sm:flex-row bg-white dark:bg-gray-900/50 rounded-[1.5rem] overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 dark:border-gray-800 transition-all duration-300"
     >
       {/* Left Side: Image */}
-      <div className="relative w-full sm:w-[40%] sm:max-w-[320px] h-56 sm:h-full bg-gray-100 dark:bg-gray-800 overflow-hidden shrink-0 transition-colors">
+      <div className="relative w-full sm:w-[40%] sm:max-w-[320px] aspect-video sm:aspect-auto sm:h-full bg-gray-100 dark:bg-gray-800 overflow-hidden shrink-0 transition-colors">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={imageUrl}
@@ -85,7 +85,7 @@ export function LogCard({ log }: { log: DailyLog }) {
           </div>
         </div>
 
-        <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-[#FF5722] dark:group-hover:text-[#FF5722] transition-colors leading-[1.8] mb-2 py-1">
+        <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-[#FF5722] dark:group-hover:text-[#FF5722] transition-colors leading-[1.6] sm:leading-[1.8] mb-2 py-1">
           {log.title?.length > 80
             ? log.title.substring(0, 80) + "..."
             : log.title}

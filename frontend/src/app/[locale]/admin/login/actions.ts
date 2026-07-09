@@ -15,7 +15,9 @@ export async function login(formData: FormData) {
     // Attempt rate limit by email
     const { success } = await ratelimit.limit(email || "anonymous");
     if (!success) {
-      return redirect(`/${locale}/admin/login?message=Too many attempts. Please try again later.`);
+      return redirect(
+        `/${locale}/admin/login?message=Too many attempts. Please try again later.`,
+      );
     }
   } catch (err) {
     console.error("Rate limit check failed (missing Redis vars?):", err);

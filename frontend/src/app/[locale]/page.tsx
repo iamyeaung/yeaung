@@ -76,7 +76,7 @@ export default async function HomePage({
         {/* 3. CONTENT AREA: MAIN + SIDEBAR */}
         <div
           id="feed"
-          className="mt-8 flex flex-col xl:flex-row gap-8 lg:gap-10 items-start scroll-mt-24"
+          className="mt-8 flex flex-col xl:flex-row gap-6 lg:gap-12 items-start scroll-mt-24"
         >
           {/* LEFT: MAIN CONTENT */}
           <div className="flex-1 w-full">

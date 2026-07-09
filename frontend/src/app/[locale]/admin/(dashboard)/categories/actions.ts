@@ -6,7 +6,9 @@ import { categorySchema } from "@/lib/validations";
 
 export async function createCategory(formData: FormData) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) throw new Error("Unauthorized");
 
   try {
@@ -14,7 +16,7 @@ export async function createCategory(formData: FormData) {
       name: formData.get("name") as string,
       slug: formData.get("slug") as string,
     };
-    
+
     const validatedData = categorySchema.parse(rawData);
 
     const { error } = await supabase.from("categories").insert(validatedData);
@@ -34,7 +36,9 @@ export async function createCategory(formData: FormData) {
 
 export async function updateCategory(id: string, formData: FormData) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) throw new Error("Unauthorized");
 
   try {
@@ -42,7 +46,7 @@ export async function updateCategory(id: string, formData: FormData) {
       name: formData.get("name") as string,
       slug: formData.get("slug") as string,
     };
-    
+
     const validatedData = categorySchema.parse(rawData);
 
     const { error } = await supabase
@@ -65,7 +69,9 @@ export async function updateCategory(id: string, formData: FormData) {
 
 export async function deleteCategory(id: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) throw new Error("Unauthorized");
 
   try {

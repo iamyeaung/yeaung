@@ -7,6 +7,7 @@ import {
   updateCategory,
   deleteCategory,
 } from "@/app/[locale]/admin/(dashboard)/categories/actions";
+import { useTranslations } from "next-intl";
 
 type Category = {
   id: string;
@@ -21,6 +22,7 @@ export function CategoryManager({
 }) {
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const t = useTranslations("Admin");
 
   // Handlers for Add
   const handleAddSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -65,13 +67,13 @@ export function CategoryManager({
   return (
     <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
       <div className="p-6 border-b border-border flex justify-between items-center">
-        <h3 className="font-semibold text-lg">All Categories</h3>
+        <h3 className="font-semibold text-lg">{t("allCategories")}</h3>
         <button
           onClick={() => setIsAdding(!isAdding)}
           className="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-md font-medium transition-colors text-sm"
         >
           <Plus className="h-4 w-4" />
-          Add Category
+          {t("addCategory")}
         </button>
       </div>
 
@@ -86,14 +88,14 @@ export function CategoryManager({
               <input
                 type="text"
                 name="name"
-                placeholder="Name (e.g. Technology)"
+                placeholder={t("namePlaceholder")}
                 required
                 className="px-3 py-2 rounded-md border border-border bg-background text-sm w-full focus:ring-2 focus:ring-primary/50 focus:outline-none"
               />
               <input
                 type="text"
                 name="slug"
-                placeholder="Slug (e.g. technology)"
+                placeholder={t("slugPlaceholder")}
                 required
                 className="px-3 py-2 rounded-md border border-border bg-background text-sm w-full focus:ring-2 focus:ring-primary/50 focus:outline-none"
               />
@@ -122,13 +124,13 @@ export function CategoryManager({
             <div>Name</div>
             <div>Slug</div>
           </div>
-          <div className="w-[88px] text-right">Actions</div>
+          <div className="w-[88px] text-right">{t("tableActions")}</div>
         </div>
 
         {/* Categories List */}
         {initialCategories.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">
-            No categories found. Create one!
+            {t("noCategoriesFound")}
           </div>
         ) : (
           initialCategories.map((cat) => (

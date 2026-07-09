@@ -5,9 +5,10 @@ import { Redis } from "@upstash/redis";
 const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
 const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
 
-const redis = (redisUrl && redisToken)
-  ? new Redis({ url: redisUrl, token: redisToken })
-  : new Redis({ url: "https://dummy.upstash.io", token: "dummy" });
+const redis =
+  redisUrl && redisToken
+    ? new Redis({ url: redisUrl, token: redisToken })
+    : new Redis({ url: "https://dummy.upstash.io", token: "dummy" });
 
 // Create a ratelimiter that allows 5 requests per 1 minute
 export const ratelimit = new Ratelimit({
