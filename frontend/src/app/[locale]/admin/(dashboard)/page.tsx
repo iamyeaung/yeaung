@@ -6,8 +6,10 @@ import {
   LayoutDashboard,
   Clock,
 } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 export default async function AdminDashboardPage() {
+  const t = await getTranslations("Admin");
   const supabase = await createClient();
 
   const { data: logs, error } = await supabase
@@ -41,11 +43,9 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="flex flex-col gap-2">
-        <h1 className="text-4xl font-bold tracking-tight">
-          Dashboard Overview
-        </h1>
+        <h1 className="text-4xl font-bold tracking-tight">{t("dashboard")}</h1>
         <p className="text-muted-foreground text-lg">
-          Welcome back. Here's what's happening with your content today.
+          {t("dashboardSubtitle")}
         </p>
       </div>
 
@@ -54,7 +54,7 @@ export default async function AdminDashboardPage() {
           <div className="absolute -right-6 -top-6 h-32 w-32 bg-primary/10 rounded-full blur-2xl group-hover:bg-primary/20 transition-colors" />
           <div className="flex items-center justify-between z-10">
             <h3 className="font-semibold text-sm text-muted-foreground tracking-wide uppercase">
-              Total Posts
+              {t("totalPosts")}
             </h3>
             <div className="h-10 w-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
               <FileText className="h-5 w-5" />
@@ -69,7 +69,7 @@ export default async function AdminDashboardPage() {
           <div className="absolute -right-6 -top-6 h-32 w-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-colors" />
           <div className="flex items-center justify-between z-10">
             <h3 className="font-semibold text-sm text-muted-foreground tracking-wide uppercase">
-              Status
+              {t("status")}
             </h3>
             <div className="h-10 w-10 bg-emerald-500/10 rounded-xl flex items-center justify-center text-emerald-500">
               <TrendingUp className="h-5 w-5" />
@@ -77,7 +77,7 @@ export default async function AdminDashboardPage() {
           </div>
           <div className="z-10 mt-2">
             <p className="text-4xl font-bold tracking-tight text-emerald-500">
-              Active
+              {t("active")}
             </p>
           </div>
         </div>
@@ -86,7 +86,7 @@ export default async function AdminDashboardPage() {
           <div className="absolute -right-6 -top-6 h-32 w-32 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-colors" />
           <div className="flex items-center justify-between z-10">
             <h3 className="font-semibold text-sm text-muted-foreground tracking-wide uppercase">
-              Last Update
+              {t("lastUpdate")}
             </h3>
             <div className="h-10 w-10 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-500">
               <Activity className="h-5 w-5" />
@@ -99,7 +99,7 @@ export default async function AdminDashboardPage() {
                     undefined,
                     { month: "short", day: "numeric", year: "numeric" },
                   )
-                : "Never"}
+                : t("never")}
             </p>
           </div>
         </div>
@@ -110,10 +110,10 @@ export default async function AdminDashboardPage() {
           <div className="flex items-center justify-between mb-8">
             <h3 className="font-semibold text-xl flex items-center gap-2">
               <LayoutDashboard className="h-5 w-5 text-primary" />
-              Activity Chart
+              {t("activityChart")}
             </h3>
             <span className="text-sm text-muted-foreground bg-muted px-3 py-1 rounded-full">
-              Last 7 Days
+              {t("last7Days")}
             </span>
           </div>
           <div className="flex-1 flex items-end gap-3 h-56 mt-4">
@@ -150,7 +150,7 @@ export default async function AdminDashboardPage() {
           <div className="flex items-center justify-between mb-6">
             <h3 className="font-semibold text-xl flex items-center gap-2">
               <Clock className="h-5 w-5 text-primary" />
-              Recent Posts
+              {t("recentPosts")}
             </h3>
           </div>
           <div className="flex-1 flex flex-col gap-3">
@@ -179,7 +179,7 @@ export default async function AdminDashboardPage() {
             ) : (
               <div className="flex flex-col items-center justify-center h-full text-muted-foreground gap-2">
                 <FileText className="h-8 w-8 opacity-20" />
-                <p className="text-sm">No recent activity.</p>
+                <p className="text-sm">{t("noRecentActivity")}</p>
               </div>
             )}
           </div>

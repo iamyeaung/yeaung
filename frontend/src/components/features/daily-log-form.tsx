@@ -6,6 +6,7 @@ import { api, ApiError } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import type { DailyLogMood } from "@/types/daily-log";
 import { useLocale } from "next-intl";
+import { Bold, Italic, Code, Link as LinkIcon, Table } from "lucide-react";
 
 const MOOD_OPTIONS: { value: DailyLogMood; label: string; emoji: string }[] = [
   { value: "great", label: "Great", emoji: "🔥" },
@@ -23,6 +24,46 @@ export function DailyLogForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const insertMarkdown = (
+    type: "bold" | "italic" | "code" | "link" | "table",
+  ) => {
+    const textarea = document.getElementById("content") as HTMLTextAreaElement;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = textarea.value;
+    const selectedText = text.substring(start, end);
+
+    let replacement = "";
+    switch (type) {
+      case "bold":
+        replacement = `**${selectedText || "bold text"}**`;
+        break;
+      case "italic":
+        replacement = `*${selectedText || "italic text"}*`;
+        break;
+      case "code":
+        replacement = `\`\`\`\n${selectedText || "code block"}\n\`\`\``;
+        break;
+      case "link":
+        replacement = `[${selectedText || "link text"}](https://example.com)`;
+        break;
+      case "table":
+        replacement = `\n| Header 1 | Header 2 |\n|---|---|\n| ${selectedText || "Cell 1"} | Cell 2 |\n`;
+        break;
+    }
+
+    const newValue =
+      text.substring(0, start) + replacement + text.substring(end);
+    setContent(newValue);
+
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(start, start + replacement.length);
+    }, 0);
+  };
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -77,10 +118,58 @@ export function DailyLogForm() {
       <div>
         <label
           htmlFor="content"
-          className="mb-1 block text-sm font-medium text-gray-700"
+          className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
         >
-          Daily Log <span className="text-gray-400">(Markdown supported)</span>
+          Daily Log{" "}
+          <span className="text-gray-400 dark:text-gray-500">
+            (Markdown supported)
+          </span>
         </label>
+
+        {/* Markdown Toolbar */}
+        <div className="flex items-center gap-1 border border-gray-300 dark:border-gray-700 border-b-0 rounded-t-lg bg-gray-50 dark:bg-gray-800/50 p-1.5">
+          <button
+            type="button"
+            onClick={() => insertMarkdown("bold")}
+            className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+            title="Bold"
+          >
+            <Bold className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => insertMarkdown("italic")}
+            className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+            title="Italic"
+          >
+            <Italic className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => insertMarkdown("code")}
+            className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+            title="Code Block"
+          >
+            <Code className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => insertMarkdown("link")}
+            className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+            title="Link"
+          >
+            <LinkIcon className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => insertMarkdown("table")}
+            className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+            title="Table"
+          >
+            <Table className="h-4 w-4" />
+          </button>
+        </div>
+
         <textarea
           id="content"
           value={content}
@@ -88,7 +177,7 @@ export function DailyLogForm() {
           placeholder={`## What I did\n- Built the authentication flow\n- Fixed a bug in the dashboard\n\n## What I learned\n- How to use Laravel Sanctum\n\n## Tomorrow\n- Start the search feature`}
           required
           rows={16}
-          className="w-full rounded-lg border border-gray-300 px-4 py-3 font-mono text-sm leading-relaxed focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="w-full rounded-b-lg rounded-t-none border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 font-mono text-sm leading-relaxed text-gray-900 dark:text-gray-100 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
       </div>
 

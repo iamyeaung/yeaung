@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { logout } from "@/app/[locale]/admin/login/actions";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 const navigation = [
   {
@@ -37,6 +37,7 @@ const navigation = [
 export function AdminSidebar() {
   const pathname = usePathname();
   const t = useTranslations("Sidebar");
+  const locale = useLocale();
 
   return (
     <div className="flex h-full w-64 flex-col bg-card/80 backdrop-blur-2xl border-r border-border/50 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
@@ -95,6 +96,7 @@ export function AdminSidebar() {
           {t("publicSite")}
         </Link>
         <form action={logout}>
+          <input type="hidden" name="locale" value={locale} />
           <button
             type="submit"
             className="flex items-center w-full px-4 py-3 text-sm font-medium text-destructive/80 hover:bg-destructive/10 hover:text-destructive rounded-2xl transition-colors"

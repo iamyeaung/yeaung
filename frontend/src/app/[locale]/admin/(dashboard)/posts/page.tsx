@@ -1,15 +1,17 @@
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { createClient } from "@/lib/supabase/server";
 import { Plus, Edit } from "lucide-react";
 import { DeletePostButton } from "@/components/admin/DeletePostButton";
 import { SearchPosts } from "@/components/admin/SearchPosts";
 import { Pagination } from "@/components/admin/Pagination";
+import { getTranslations } from "next-intl/server";
 
 export default async function AdminPostsPage({
   searchParams,
 }: {
   searchParams?: Promise<{ query?: string; page?: string }>;
 }) {
+  const t = await getTranslations("Admin");
   const supabase = await createClient();
 
   const params = await searchParams;
@@ -45,11 +47,9 @@ export default async function AdminPostsPage({
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight mb-2">
-            Manage Posts
+            {t("managePosts")}
           </h1>
-          <p className="text-muted-foreground">
-            View, edit, and delete your daily logs.
-          </p>
+          <p className="text-muted-foreground">{t("managePostsSubtitle")}</p>
         </div>
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <SearchPosts />
@@ -58,7 +58,7 @@ export default async function AdminPostsPage({
             className="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-md font-medium transition-colors whitespace-nowrap"
           >
             <Plus className="h-4 w-4" />
-            Create
+            {t("create")}
           </Link>
         </div>
       </div>
@@ -68,12 +68,14 @@ export default async function AdminPostsPage({
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-muted-foreground uppercase bg-muted/50 border-b border-border">
               <tr>
-                <th className="px-6 py-4 font-medium">Title</th>
-                <th className="px-6 py-4 font-medium">Author</th>
-                <th className="px-6 py-4 font-medium">Date</th>
-                <th className="px-6 py-4 font-medium">Category</th>
-                <th className="px-6 py-4 font-medium">Mood</th>
-                <th className="px-6 py-4 font-medium text-right">Actions</th>
+                <th className="px-6 py-4 font-medium">{t("tableTitle")}</th>
+                <th className="px-6 py-4 font-medium">{t("tableAuthor")}</th>
+                <th className="px-6 py-4 font-medium">{t("tableDate")}</th>
+                <th className="px-6 py-4 font-medium">{t("tableCategory")}</th>
+                <th className="px-6 py-4 font-medium">{t("tableMood")}</th>
+                <th className="px-6 py-4 font-medium text-right">
+                  {t("tableActions")}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -136,14 +138,12 @@ export default async function AdminPostsPage({
                     {query ? (
                       <>
                         <span className="text-lg font-medium mb-1">
-                          No results found
+                          {t("noResultsFound")}
                         </span>
-                        <span>
-                          We couldn't find anything matching "{query}".
-                        </span>
+                        <span>{t("noResultsFoundSubtitle", { query })}</span>
                       </>
                     ) : (
-                      "No posts found."
+                      t("noPostsFound")
                     )}
                   </td>
                 </tr>

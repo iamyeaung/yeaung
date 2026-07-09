@@ -15,7 +15,10 @@
   "Feed": {
     "featured": "Featured Posts",
     "latest": "Latest Articles",
-    "empty": "No logs recorded yet. Your stream is a clean slate!"
+    "empty": "No logs recorded yet. Your stream is a clean slate!",
+    "searchPlaceholder": "Search logs by title, content or tags...",
+    "noResults": "No logs found matching your search.",
+    "clearSearch": "Clear Search"
   },
   "Sidebar": {
     "mainMenu": "Main Menu",
@@ -39,5 +42,32 @@
     "emailLabel": "Email Address",
     "passwordLabel": "Password",
     "button": "Sign In"
+  },
+  "Admin": {
+    "dashboard": "Dashboard Overview",
+    "dashboardSubtitle": "Welcome back. Here's what's happening with your content today.",
+    "totalPosts": "Total Posts",
+    "status": "Status",
+    "active": "Active",
+    "lastUpdate": "Last Update",
+    "never": "Never",
+    "activityChart": "Activity Chart",
+    "last7Days": "Last 7 Days",
+    "recentPosts": "Recent Posts",
+    "noRecentActivity": "No recent activity.",
+    "manageCategories": "Manage Categories",
+    "manageCategoriesSubtitle": "Add, rename, or delete categories for your posts.",
+    "managePosts": "Manage Posts",
+    "managePostsSubtitle": "View, edit, and delete your daily logs.",
+    "create": "Create",
+    "tableTitle": "Title",
+    "tableAuthor": "Author",
+    "tableDate": "Date",
+    "tableCategory": "Category",
+    "tableMood": "Mood",
+    "tableActions": "Actions",
+    "noResultsFound": "No results found",
+    "noResultsFoundSubtitle": "We couldn't find anything matching \"{query}\".",
+    "noPostsFound": "No posts found."
   }
 }

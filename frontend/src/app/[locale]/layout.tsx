@@ -30,6 +30,13 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        <script
+          defer
+          data-domain="yeaung.vercel.app"
+          src="https://plausible.io/js/script.js"
+        />
+      </head>
       <body className="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-50 transition-colors">
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

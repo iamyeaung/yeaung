@@ -4,10 +4,13 @@ import { ArrowLeft, Mail, Lock, ShieldCheck } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 export default async function LoginPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ message: string }>;
 }) {
+  const { locale } = await params;
   const resolvedSearchParams = await searchParams;
   const t = await getTranslations("Login");
   const tNav = await getTranslations("Navbar");
@@ -36,6 +39,7 @@ export default async function LoginPage({
         </div>
 
         <form className="flex flex-col gap-5 w-full" action={login}>
+          <input type="hidden" name="locale" value={locale} />
           <div className="space-y-2">
             <label
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"

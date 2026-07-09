@@ -1,16 +1,5 @@
-import Link from "next/link";
-
-type Log = {
-  id: string;
-  createdAt: string;
-  mood?: string;
-  title: string;
-  content: string;
-  tags?: string[];
-  slug?: string | null;
-  category?: string | null;
-  image_url?: string | null;
-};
+import { Link } from "@/i18n/routing";
+import type { DailyLog } from "@/types/daily-log";
 
 const TAG_IMAGE_MAP: Record<string, string> = {
   mcp: "1518770660439-4636190af475",
@@ -28,7 +17,7 @@ const TAG_IMAGE_MAP: Record<string, string> = {
 
 const FALLBACK_IMAGE = "1498050108023-c5249f4df085";
 
-export function LogCard({ log }: { log: Log }) {
+export function LogCard({ log }: { log: DailyLog }) {
   // Find a highly relevant image based on the specific tags (ignoring generic 'ai' tag)
   let imageId = FALLBACK_IMAGE;
   if (log.tags && log.tags.length > 0) {

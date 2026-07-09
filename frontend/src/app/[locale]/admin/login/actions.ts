@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/server";
 export async function login(formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
+  const locale = (formData.get("locale") as string) || "en";
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signInWithPassword({
@@ -15,16 +16,19 @@ export async function login(formData: FormData) {
   });
 
   if (error) {
-    return redirect("/admin/login?message=Could not authenticate user");
+    return redirect(
+      `/${locale}/admin/login?message=Could not authenticate user`,
+    );
   }
 
   revalidatePath("/", "layout");
-  redirect("/admin");
+  redirect(`/${locale}/admin`);
 }
 
-export async function logout() {
+export async function logout(formData: FormData) {
+  const locale = (formData.get("locale") as string) || "en";
   const supabase = await createClient();
   await supabase.auth.signOut();
   revalidatePath("/", "layout");
-  redirect("/admin/login");
+  redirect(`/${locale}/admin/login`);
 }

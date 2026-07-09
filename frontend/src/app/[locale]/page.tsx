@@ -1,11 +1,10 @@
-import { Link } from "@/i18n/routing";
 import { api } from "@/lib/api";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { LogCard } from "@/components/features/log-card";
 import { HeroSlider } from "@/components/features/hero-slider";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { getTranslations } from "next-intl/server";
+import { LogFeedClient } from "@/components/features/log-feed-client";
 
 export const dynamic = "force-dynamic";
 
@@ -35,23 +34,6 @@ export default async function HomePage({
   const latestLogs = logs.filter(
     (l: any) => !displayFeatured.find((f) => f.id === l.id),
   );
-
-  // Pagination Logic (Await searchParams for Next.js 15+)
-  const resolvedParams = await searchParams;
-  const pageParam = resolvedParams?.page;
-  const page = parseInt(
-    Array.isArray(pageParam) ? pageParam[0] : pageParam || "1",
-    10,
-  );
-  const postsPerPage = 5;
-  const startIndex = (page - 1) * postsPerPage;
-  const currentLogs = latestLogs.slice(startIndex, startIndex + postsPerPage);
-  const totalPages = Math.ceil(latestLogs.length / postsPerPage);
-
-  const totalLogs = logs.length;
-  const greatDays = logs.filter(
-    (l: any) => l.mood && l.mood.includes("great"),
-  ).length;
 
   return (
     <div className="flex min-h-screen flex-col bg-[#F9F8F4] dark:bg-gray-950 text-gray-900 dark:text-gray-100 selection:bg-orange-500 selection:text-white font-sans transition-colors">
@@ -98,92 +80,11 @@ export default async function HomePage({
         >
           {/* LEFT: MAIN CONTENT */}
           <div className="flex-1 w-full">
-            {/* FEATURED POSTS (Only show on page 1) */}
-            {displayFeatured.length > 0 && page === 1 && (
-              <div className="mb-12">
-                <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-4 mb-6 transition-colors">
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 tracking-tight flex items-center gap-2 transition-colors">
-                    <span className="text-[#FF5722] text-xl">★</span>{" "}
-                    {tFeed("featured")}
-                  </h2>
-                </div>
-                <div className="flex flex-col gap-5">
-                  {displayFeatured.map((log: any) => (
-                    <LogCard key={`featured-${log.id}`} log={log} />
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* LATEST ARTICLES */}
-            <div className="border-b border-gray-100 dark:border-gray-800 pb-4 mb-6 transition-colors">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 tracking-tight transition-colors">
-                {tFeed("latest")}
-              </h2>
-            </div>
-
-            {logs.length === 0 ? (
-              <div className="rounded-[1.5rem] border border-dashed border-gray-200 dark:border-gray-700 p-12 text-center bg-white/50 dark:bg-gray-900/50 shadow-sm transition-colors">
-                <p className="text-gray-500 dark:text-gray-400 font-medium transition-colors">
-                  {tFeed("empty")}
-                </p>
-              </div>
-            ) : (
-              <>
-                <div className="flex flex-col gap-5">
-                  {currentLogs.map((log: any) => (
-                    <LogCard key={log.id} log={log} />
-                  ))}
-                </div>
-
-                {totalPages > 1 && (
-                  <div className="mt-10 flex items-center justify-center gap-2">
-                    {/* Prev Button */}
-                    {page > 1 ? (
-                      <Link
-                        href={`/?page=${page - 1}`}
-                        className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 transition-colors shadow-sm scroll-smooth"
-                      >
-                        ←
-                      </Link>
-                    ) : (
-                      <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 text-gray-300 dark:text-gray-600 cursor-not-allowed transition-colors">
-                        ←
-                      </div>
-                    )}
-
-                    {/* Page Numbers */}
-                    {Array.from({ length: totalPages }).map((_, i) => {
-                      const pageNum = i + 1;
-                      const isActive = page === pageNum;
-                      return (
-                        <Link
-                          key={pageNum}
-                          href={`/?page=${pageNum}`}
-                          className={`flex h-9 w-9 items-center justify-center rounded-xl text-sm font-bold transition-all ${isActive ? "bg-[#FF5722] text-white shadow-md shadow-orange-500/30" : "border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 shadow-sm"}`}
-                        >
-                          {pageNum}
-                        </Link>
-                      );
-                    })}
-
-                    {/* Next Button */}
-                    {page < totalPages ? (
-                      <Link
-                        href={`/?page=${page + 1}`}
-                        className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 transition-colors shadow-sm scroll-smooth"
-                      >
-                        →
-                      </Link>
-                    ) : (
-                      <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 text-gray-300 dark:text-gray-600 cursor-not-allowed transition-colors">
-                        →
-                      </div>
-                    )}
-                  </div>
-                )}
-              </>
-            )}
+            <LogFeedClient
+              initialLogs={logs}
+              displayFeatured={displayFeatured}
+              latestLogs={latestLogs}
+            />
           </div>
 
           {/* RIGHT: SIDEBAR */}

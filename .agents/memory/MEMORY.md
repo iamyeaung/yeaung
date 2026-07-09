@@ -3,9 +3,15 @@
 > **Goal:** High-performance Knowledge Management System built with Next.js (App Router), Tailwind CSS, and Supabase.
 
 ## Current Focus
-Completed Chapter 4 and Chapter 5 homework requirements (shipped project URL, screenshots capture, tech-stack slides, feedback files, and team report branch uploads).
+Completed Chapter 6 polish and feature completion (bilingual redirect preservation, markdown toolbar helper, and client-side landing search).
 
 ## Log
+
+- **2026-07-09**: Completed Chapter 6 features and UI polish requirements.
+  - **Changed:** Fixed login/logout redirects by passing locale parameter to Server Actions; added LanguageSwitcher in admin dashboard layout header; localized admin dashboard overview, posts, and categories views in `en.json`/`mm.json`; added Markdown formatting toolbar above `daily-log-form.tsx` textarea; implemented client-side search and pagination using a new `LogFeedClient` component.
+  - **Why:** To solve user feedback issues, enable localized admin panel control, improve markdown editor UX, and support instant logs search.
+  - **Gotchas:** Pass the locale parameter inside form inputs to Server Actions to ensure redirect targets preserve the user's selected language.
+  - **Open threads:** None.
 
 - **2026-07-08**: Completed Chapter 4 and Chapter 5 homework deliverables.
   - **Changed:** Added MIT `LICENSE` and project `screenshots/` (landing, dashboard, login) in project repo. Created `slides/tech-stack.md` and `feedback/feedback.md` in project repo. Generated, committed, and pushed `ch-4/iamyeaung/report.md` and `ch-5/iamyeaung/report.md` in `team-10` repo. Fixed empty/missing proposals (`iamyeaung.md` and `@alexjoker5`) in `team-10` repo to make CI build green.
